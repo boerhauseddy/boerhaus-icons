@@ -1,1 +1,201 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TobyMac — Bandsintown preview</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px 16px 40px;
+      background: #f7f7f5;
+      color: #111;
+    }
+    .preview-note {
+      font-family: Courier, monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #666;
+      margin: 0 0 20px;
+    }
+  </style>
+</head>
+<body>
+  <p class="preview-note">Preview · True Artist / TobyMac tour widget</p>
+<!-- True Artist / TobyMac — Bandsintown tour widget
+     Pattern: LANCO (id_666386) → TobyMac (id_817)
+     Fonts: Georgia (dates/venue weight) + Courier (labels) to match True Artist styles
+     For Jon later: swap data-artist-name to his BIT id_XXXX -->
+<style>
+  .ta-bit {
+    --ta-ink: #111111;
+    --ta-muted: #666666;
+    --ta-line: #dddddd;
+    --ta-paper: #ffffff;
+    --ta-navy: #0a1f44;
+    font-family: Courier, "Courier New", monospace;
+    color: var(--ta-ink);
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 8px 0 28px;
+  }
+  .ta-bit__label {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ta-muted);
+    margin: 0 0 14px;
+    padding: 0 4px;
+  }
+  .ta-bit__wrap {
+    display: flex;
+    justify-content: center;
+  }
+  .ta-bit__wrap .bit-widget-container {
+    max-width: 100%;
+    width: 100%;
+    padding: 0 !important;
+  }
+
+  /* Typography overrides — True Artist boutique */
+  .ta-bit .bit-widget {
+    font-family: Courier, "Courier New", monospace !important;
+  }
+  .ta-bit .bit-date,
+  .ta-bit .bit-mobile-date {
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-weight: 400 !important;
+    letter-spacing: -0.01em !important;
+    text-transform: uppercase !important;
+    color: var(--ta-ink) !important;
+  }
+  .ta-bit .bit-mobile-date {
+    font-size: 28px !important;
+    line-height: 1.05 !important;
+  }
+  .ta-bit .bit-venue,
+  .ta-bit a.bit-location-under-mobile {
+    font-family: Courier, "Courier New", monospace !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+  }
+  .ta-bit .bit-venue {
+    font-size: 13px !important;
+    color: var(--ta-muted) !important;
+  }
+  .ta-bit a.bit-location-under-mobile {
+    font-size: 18px !important;
+    color: var(--ta-ink) !important;
+    display: block !important;
+  }
+  .ta-bit .bit-event {
+    border-color: var(--ta-line) !important;
+  }
+  .ta-bit .bit-event__buttons {
+    display: flex !important;
+    justify-content: flex-start !important;
+    padding-top: 10px !important;
+    gap: 8px !important;
+  }
+  .ta-bit .bit-button,
+  .ta-bit a.bit-button {
+    font-family: Courier, "Courier New", monospace !important;
+    font-size: 12px !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+    border-radius: 4px !important;
+  }
+</style>
+
+<div class="ta-bit">
+  <p class="ta-bit__label">Tour</p>
+  <div class="ta-bit__wrap">
+    <script charset="utf-8" src="https://widgetv3.bandsintown.com/main.min.js"></script>
+    <a class="bit-widget-initializer"
+      data-artist-name="id_817"
+      data-events-to-display=""
+      data-background-color="rgba(255,255,255,1)"
+      data-separator-color="rgba(221,221,221,1)"
+      data-text-color="rgba(17,17,17,1)"
+      data-font="Georgia"
+      data-auto-style="false"
+      data-button-label-capitalization="uppercase"
+      data-header-capitalization="uppercase"
+      data-location-capitalization="uppercase"
+      data-venue-capitalization="uppercase"
+      data-display-local-dates="false"
+      data-local-dates-position="tab"
+      data-display-past-dates="false"
+      data-display-details="false"
+      data-display-lineup="false"
+      data-display-start-time="false"
+      data-social-share-icon="false"
+      data-display-limit="8"
+      data-date-format="MMM D"
+      data-date-orientation="horizontal"
+      data-date-border-color="rgba(17,17,17,1)"
+      data-date-border-width="2px"
+      data-date-capitalization="uppercase"
+      data-date-border-radius="4px"
+      data-event-ticket-cta-size="medium"
+      data-event-custom-ticket-text=""
+      data-event-ticket-text="TICKETS"
+      data-event-ticket-icon="false"
+      data-event-ticket-cta-text-color="rgba(255,255,255,1)"
+      data-event-ticket-cta-bg-color="rgba(17,17,17,1)"
+      data-event-ticket-cta-border-color="rgba(17,17,17,1)"
+      data-event-ticket-cta-border-width="0px"
+      data-event-ticket-cta-border-radius="4px"
+      data-sold-out-button-text-color="rgba(102,102,102,1)"
+      data-sold-out-button-background-color="rgba(238,238,238,1)"
+      data-sold-out-button-border-color="rgba(221,221,221,1)"
+      data-sold-out-button-clickable="true"
+      data-event-rsvp-position="hidden"
+      data-event-rsvp-cta-size="medium"
+      data-event-rsvp-only-show-icon="false"
+      data-event-rsvp-text="NOTIFY ME"
+      data-event-rsvp-icon="false"
+      data-event-rsvp-cta-text-color="rgba(17,17,17,1)"
+      data-event-rsvp-cta-bg-color="rgba(255,255,255,1)"
+      data-event-rsvp-cta-border-color="rgba(17,17,17,1)"
+      data-event-rsvp-cta-border-width="1px"
+      data-event-rsvp-cta-border-radius="4px"
+      data-follow-section-position="hidden"
+      data-follow-section-alignment="center"
+      data-follow-section-header-text=""
+      data-follow-section-cta-size="small"
+      data-follow-section-cta-text=""
+      data-follow-section-cta-icon="false"
+      data-follow-section-cta-text-color="rgba(255,255,255,1)"
+      data-follow-section-cta-bg-color="rgba(17,17,17,1)"
+      data-follow-section-cta-border-color="rgba(17,17,17,1)"
+      data-follow-section-cta-border-width="0px"
+      data-follow-section-cta-border-radius="4px"
+      data-play-my-city-position="hidden"
+      data-play-my-city-alignment="center"
+      data-play-my-city-header-text=""
+      data-play-my-city-cta-size="small"
+      data-play-my-city-cta-text=""
+      data-play-my-city-cta-icon="false"
+      data-play-my-city-cta-text-color="rgba(255,255,255,1)"
+      data-play-my-city-cta-bg-color="rgba(17,17,17,1)"
+      data-play-my-city-cta-border-color="rgba(17,17,17,1)"
+      data-play-my-city-cta-border-width="0px"
+      data-play-my-city-cta-border-radius="4px"
+      data-language="en"
+      data-layout-breakpoints="[640]"
+      data-widget-width="100%"
+      data-widget-height=""
+      data-widget-width-mobile="100%"
+      data-widget-height-mobile=""
+      data-widget-width-tablet=""
+      data-widget-height-tablet=""
+      href="https://www.bandsintown.com/a/817-tobymac"
+      rel="noopener">
+    </a>
+  </div>
+</div>
+
+</body>
+</html>
