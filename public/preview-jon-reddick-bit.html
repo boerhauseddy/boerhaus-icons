@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jon Reddick — Tour preview (grouped)</title>
+  <style>
+    body { margin:0; padding:20px 16px 48px; background:#f7f7f5; color:#111; }
+    .preview-note { font-family:Courier,monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#666; margin:0 0 20px; }
+  </style>
+</head>
+<body>
+  <p class="preview-note">Preview · live BIT · grouped by tour</p>
+<!-- True Artist / Jon Reddick — Tour dates (LIVE, grouped by tour)
+     One Bandsintown fetch per page load (public app_id js_www)
+     Renders tour-name section headers, then date / city / building rows
+     No extra API calls — grouping is client-side only -->
+<style>
+  .ta-tour {
+    --ta-ink: #111111;
+    --ta-muted: #666666;
+    --ta-line: #dddddd;
+    --ta-paper: #ffffff;
+    --ta-navy: #0a1f44;
+    --ta-radius: 10px;
+    font-family: Courier, "Courier New", monospace;
+    color: var(--ta-ink);
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 8px 0 32px;
+  }
+  .ta-tour * { box-sizing: border-box; }
+  .ta-tour a { color: inherit; text-decoration: none; }
+  .ta-tour__label {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ta-muted);
+    margin: 0 0 14px;
+    padding: 0 4px;
+  }
+  .ta-tour__head {
+    display: block;
+    background: var(--ta-paper);
+    border: 1px solid var(--ta-line);
+    border-radius: var(--ta-radius);
+    padding: 16px 16px 14px;
+    margin: 0 0 18px;
+    transition: opacity 0.15s ease;
+  }
+  .ta-tour__head:hover { opacity: 0.85; }
+  .ta-tour__head-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 20px;
+    margin: 0 0 14px;
+  }
+  .ta-tour__ico {
+    width: 20px; height: 20px; display: block;
+    filter: grayscale(1) brightness(0); opacity: 0.9;
+  }
+  .ta-tour__brand {
+    font-size: 13px; letter-spacing: 0.08em;
+    text-transform: uppercase; margin: 0; line-height: 1;
+  }
+  .ta-tour__metrics {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px;
+  }
+  .ta-tour__metric-label {
+    display: block; font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ta-muted);
+    margin: 0 0 2px; line-height: 1.2;
+  }
+  .ta-tour__metric-value {
+    display: block; font-family: Georgia, "Times New Roman", serif;
+    font-size: 28px; line-height: 1.05; letter-spacing: -0.02em; margin: 0;
+  }
+  .ta-tour__list {
+    list-style: none; margin: 0; padding: 0;
+  }
+  .ta-tour__section {
+    margin: 0;
+    padding: 22px 4px 8px;
+    border-top: 1px solid var(--ta-line);
+  }
+  .ta-tour__section:first-child {
+    border-top: none;
+    padding-top: 4px;
+  }
+  .ta-tour__tour-name {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    margin: 0 0 6px;
+  }
+  .ta-tour__row {
+    display: grid;
+    grid-template-columns: 5.5rem minmax(0, 1.1fr) minmax(0, 1.3fr);
+    gap: 10px 14px;
+    align-items: baseline;
+    padding: 12px 4px;
+    border-bottom: 1px solid var(--ta-line);
+  }
+  .ta-tour__section .ta-tour__row:last-child {
+    border-bottom: none;
+  }
+  @media (max-width: 560px) {
+    .ta-tour__row {
+      grid-template-columns: 4.5rem minmax(0, 1fr);
+      grid-template-areas:
+        "date city"
+        "date venue";
+      gap: 2px 12px;
+      padding: 11px 4px;
+    }
+    .ta-tour__date { grid-area: date; padding-top: 3px; }
+    .ta-tour__city { grid-area: city; }
+    .ta-tour__venue { grid-area: venue; }
+    .ta-tour__tour-name { font-size: 20px; }
+  }
+  .ta-tour__date {
+    font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: underline; text-underline-offset: 3px;
+    text-decoration-thickness: 1px; white-space: nowrap;
+  }
+  .ta-tour__date:hover { color: var(--ta-navy); }
+  .ta-tour__city {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 18px; line-height: 1.15; letter-spacing: -0.01em;
+    margin: 0; min-width: 0;
+  }
+  .ta-tour__venue {
+    font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--ta-muted); margin: 0; min-width: 0;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .ta-tour__status {
+    font-size: 11px; color: var(--ta-muted);
+    padding: 10px 4px; margin: 0;
+  }
+  .ta-tour__status--err { color: #8a2f2f; }
+</style>
+
+<div class="ta-tour"
+  data-artist-slug="id_15490271"
+  data-app-id="js_www"
+  data-overrides-url="https://cdn.jsdelivr.net/gh/boerhauseddy/boerhaus-icons@main/public/jon-reddick-venue-overrides.json">
+  <p class="ta-tour__label">Tour</p>
+  <a class="ta-tour__head" href="https://www.bandsintown.com/a/15490271-jon-reddick" target="_blank" rel="noopener">
+    <div class="ta-tour__head-top">
+      <img class="ta-tour__ico" src="https://cdn.jsdelivr.net/gh/boerhauseddy/boerhaus-icons@main/public/bandsintown.svg" alt="" width="20" height="20" />
+      <p class="ta-tour__brand">Bandsintown</p>
+    </div>
+    <div class="ta-tour__metrics">
+      <div>
+        <span class="ta-tour__metric-label">Followers</span>
+        <span class="ta-tour__metric-value" data-bit="followers">—</span>
+      </div>
+      <div>
+        <span class="ta-tour__metric-label">Concerts on sale</span>
+        <span class="ta-tour__metric-value" data-bit="count">—</span>
+      </div>
+    </div>
+  </a>
+  <div class="ta-tour__list" data-bit="list">
+    <p class="ta-tour__status">Loading dates…</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  var root = document.querySelector(".ta-tour");
+  if (!root) return;
+
+  var slug = root.getAttribute("data-artist-slug") || "id_15490271";
+  var appId = root.getAttribute("data-app-id") || "js_www";
+  var overridesUrl = root.getAttribute("data-overrides-url") || "";
+  var listEl = root.querySelector('[data-bit="list"]');
+  var countEl = root.querySelector('[data-bit="count"]');
+  var followersEl = root.querySelector('[data-bit="followers"]');
+  var inlineOverrides = {"108567126":"Eagle's Landing First Baptist Church","108567148":"Liberation Church","108567167":"Palmetto Pointe Church","108785612":"First Baptist Church of Blue Springs","108785613":"Brooklife Church","108785611":"The Church at Sugar Creek","108785615":"Bethesda Church","108785618":"Harvest Church","108785622":"Myrtle Grove Baptist Church","108785610":"Wynnbrook Baptist Church","108785616":"Faith United Methodist Church","108785623":"Grace Church","108785614":"Fall Line Church","108785625":"Central Christian Church","108785624":"The Dream Theatre","108785619":"Calvary Church","108785626":"Freedom Church","108785620":"Living Word Church","108785617":"Trinity Assembly","108785627":"Calvary Church - Harvest Fields","108785621":"New Life Covenant Church - Humboldt Park Campus"};
+
+  function fmtFollowers(n) {
+    n = Number(n) || 0;
+    if (n >= 1e6) return (Math.round(n / 1e5) / 10).toFixed(1).replace(/\.0$/, "") + "M";
+    if (n >= 1e3) return Math.round(n / 1e3) + "K";
+    return String(n);
+  }
+
+  function fmtDate(iso) {
+    var m = String(iso || "").match(/(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return "";
+    var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    return months[Number(m[2]) - 1] + " " + Number(m[3]);
+  }
+
+  function cityState(venue) {
+    if (!venue) return "";
+    var city = venue.city || "";
+    var region = venue.region || "";
+    if (city && region) return city + ", " + region;
+    return venue.location || city || region || "";
+  }
+
+  function ticketUrl(ev) {
+    var offers = ev.offers || [];
+    for (var i = 0; i < offers.length; i++) {
+      if (offers[i].type === "Tickets" && offers[i].url) return offers[i].url;
+    }
+    for (var j = 0; j < offers.length; j++) {
+      if (offers[j].url) return offers[j].url;
+    }
+    return ev.url || "#";
+  }
+
+  function isTourish(name, title) {
+    var n = String(name || "").trim().toLowerCase();
+    var t = String(title || "").trim().toLowerCase();
+    if (!n) return true;
+    if (t && n === t) return true;
+    if (/\bno\s*fear\b/.test(n)) return true;
+    if (/live\s+and\s+in\s+worship/.test(n)) return true;
+    if (/\btour\b/.test(n)) return true;
+    return false;
+  }
+
+  function tourLabel(ev) {
+    var t = String(ev.title || "").trim();
+    if (t) {
+      if (/\bno\s*fear\b/i.test(t)) return "No Fear Tour";
+      if (/live\s+and\s+in\s+worship/i.test(t)) return t;
+      return t;
+    }
+    var d = String(ev.description || "");
+    if (/\bno\s*fear\s*tour/i.test(d)) return "No Fear Tour";
+    if (/live\s+and\s+in\s+worship/i.test(d)) return "CAIN Live and In Worship";
+    return "Other dates";
+  }
+
+  function buildingName(ev, overrides) {
+    var venue = ev.venue || {};
+    var vname = String(venue.name || "").trim();
+    var title = String(ev.title || "").trim();
+    var oid = String(ev.id || "");
+    if (overrides && overrides[oid]) return overrides[oid];
+    if (!isTourish(vname, title)) return vname;
+    return "";
+  }
+
+  function groupByTour(events, overrides) {
+    var groups = [];
+    var map = {};
+    (events || []).forEach(function (ev) {
+      var name = tourLabel(ev);
+      if (!map[name]) {
+        map[name] = { name: name, events: [] };
+        groups.push(map[name]);
+      }
+      map[name].events.push(ev);
+    });
+    return groups;
+  }
+
+  function render(events, artist, overrides) {
+    if (artist && artist.tracker_count != null && followersEl) {
+      followersEl.textContent = fmtFollowers(artist.tracker_count);
+    }
+    var total = (events || []).length;
+    if (countEl) countEl.textContent = String(total);
+
+    listEl.innerHTML = "";
+    if (!total) {
+      listEl.innerHTML = '<p class="ta-tour__status">No upcoming dates right now.</p>';
+      return;
+    }
+
+    var groups = groupByTour(events, overrides);
+    groups.forEach(function (group) {
+      var section = document.createElement("section");
+      section.className = "ta-tour__section";
+      var h = document.createElement("h3");
+      h.className = "ta-tour__tour-name";
+      h.textContent = group.name;
+      section.appendChild(h);
+
+      group.events.forEach(function (ev) {
+        var venue = ev.venue || {};
+        var building = buildingName(ev, overrides || {});
+        var row = document.createElement("div");
+        row.className = "ta-tour__row";
+        row.innerHTML =
+          '<a class="ta-tour__date" href="' + ticketUrl(ev) + '" target="_blank" rel="noopener">' +
+            fmtDate(ev.datetime || ev.starts_at) +
+          "</a>" +
+          '<p class="ta-tour__city">' + cityState(venue) + "</p>" +
+          '<p class="ta-tour__venue">' + (building || "—") + "</p>";
+        section.appendChild(row);
+      });
+      listEl.appendChild(section);
+    });
+  }
+
+  var base = "https://rest.bandsintown.com/artists/" + encodeURIComponent(slug);
+  var q = "?app_id=" + encodeURIComponent(appId);
+
+  var overridesPromise = overridesUrl
+    ? fetch(overridesUrl + (overridesUrl.indexOf("?") >= 0 ? "&" : "?") + "t=" + Date.now())
+        .then(function (r) { return r.ok ? r.json() : inlineOverrides; })
+        .then(function (data) {
+          var out = {};
+          for (var k in inlineOverrides) if (inlineOverrides.hasOwnProperty(k)) out[k] = inlineOverrides[k];
+          if (data && typeof data === "object") {
+            for (var k2 in data) if (data.hasOwnProperty(k2)) out[k2] = data[k2];
+          }
+          return out;
+        })
+        .catch(function () { return inlineOverrides; })
+    : Promise.resolve(inlineOverrides);
+
+  Promise.all([
+    fetch(base + "/events" + q).then(function (r) {
+      if (!r.ok) throw new Error("events " + r.status);
+      return r.json();
+    }),
+    fetch(base + q).then(function (r) {
+      if (!r.ok) throw new Error("artist " + r.status);
+      return r.json();
+    }),
+    overridesPromise
+  ]).then(function (pair) {
+    render(pair[0], pair[1], pair[2]);
+  }).catch(function (err) {
+    if (listEl) {
+      listEl.innerHTML = '<p class="ta-tour__status ta-tour__status--err">Couldn’t load tour dates. Try again in a moment.</p>';
+    }
+    console.warn("ta-tour", err);
+  });
+})();
+</script>
+
+</body>
+</html>
