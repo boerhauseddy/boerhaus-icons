@@ -1,0 +1,125 @@
+<!-- True Artist / TobyMac — Awards bubbles
+     Paste into a Squarespace Code block (Core+ for custom CSS/HTML).
+     Counts: 7 GRAMMYs · 24 Dove Awards. Icons from icons.boerhaus.com -->
+<style>
+  .ta-awards {
+    --ta-ink: #111111;
+    --ta-muted: #666666;
+    --ta-line: #dddddd;
+    --ta-card: #ffffff;
+    --ta-radius: 18px;
+    font-family: Courier, "Courier New", monospace;
+    color: var(--ta-ink);
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 8px 0 24px;
+  }
+  .ta-awards * { box-sizing: border-box; }
+
+  .ta-awards__label {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 0 0 14px;
+    padding: 0 4px;
+  }
+
+  .ta-awards__row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .ta-award {
+    background: var(--ta-card);
+    border: 1px solid var(--ta-line);
+    border-radius: var(--ta-radius);
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 88px;
+  }
+
+  .ta-award__ico {
+    width: 40px;
+    height: 52px;
+    flex: 0 0 40px;
+    display: block;
+    object-fit: contain;
+    object-position: center;
+    filter: grayscale(1) brightness(0);
+    opacity: 0.92;
+  }
+
+  .ta-award__body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .ta-award__value {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 36px;
+    line-height: 1;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .ta-award__name {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ta-muted);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  @media (max-width: 520px) {
+    .ta-awards__row {
+      grid-template-columns: 1fr;
+    }
+    .ta-award {
+      padding: 16px 18px;
+    }
+    .ta-award__value {
+      font-size: 32px;
+    }
+  }
+</style>
+
+<div class="ta-awards" role="group" aria-label="Awards">
+  <p class="ta-awards__label">Awards</p>
+  <div class="ta-awards__row">
+    <div class="ta-award">
+      <img
+        class="ta-award__ico"
+        src="https://icons.boerhaus.com/grammy.svg"
+        width="40"
+        height="52"
+        alt=""
+        decoding="async"
+      />
+      <div class="ta-award__body">
+        <p class="ta-award__value">7</p>
+        <p class="ta-award__name">GRAMMYs</p>
+      </div>
+    </div>
+    <div class="ta-award">
+      <img
+        class="ta-award__ico"
+        src="https://icons.boerhaus.com/dove-award.svg"
+        width="40"
+        height="52"
+        alt=""
+        decoding="async"
+      />
+      <div class="ta-award__body">
+        <p class="ta-award__value">24</p>
+        <p class="ta-award__name">Doves</p>
+      </div>
+    </div>
+  </div>
+</div>
