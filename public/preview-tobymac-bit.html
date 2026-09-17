@@ -5,29 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>TobyMac — Tour preview</title>
   <style>
-    body {
-      margin: 0;
-      padding: 20px 16px 48px;
-      background: #f7f7f5;
-      color: #111;
-    }
-    .preview-note {
-      font-family: Courier, monospace;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #666;
-      margin: 0 0 20px;
-    }
+    body { margin:0; padding:20px 16px 48px; background:#f7f7f5; color:#111; }
+    .preview-note { font-family:Courier,monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#666; margin:0 0 20px; }
   </style>
 </head>
 <body>
   <p class="preview-note">Preview · True Artist / TobyMac tour</p>
-<!-- True Artist / TobyMac — Tour dates (custom BIT list)
-     Header: Bandsintown card (logo + followers + live show count)
-     Rows: DATE (Courier, linked) / City, ST (Georgia) / venue (Courier)
-     Live data from BIT public API — no Tickets button
-     For Jon later: change ARTIST_ID / ARTIST_SLUG -->
+<!-- True Artist / TobyMac — Tour dates
+     NOT the BIT embed — custom list baked from Bandsintown API
+     Header: logo + followers + show count
+     Rows: DATE (Courier, linked) / City, ST (Georgia) / building + tour stacked
+     Browser uses baked data (js_www links only). Private app id stays server-side. -->
 <style>
   .ta-tour {
     --ta-ink: #111111;
@@ -52,8 +40,6 @@
     margin: 0 0 14px;
     padding: 0 4px;
   }
-
-  /* BIT header card — same language as stats widgets */
   .ta-tour__head {
     display: block;
     background: var(--ta-paper);
@@ -72,53 +58,34 @@
     margin: 0 0 14px;
   }
   .ta-tour__ico {
-    width: 20px;
-    height: 20px;
-    display: block;
-    filter: grayscale(1) brightness(0);
-    opacity: 0.9;
+    width: 20px; height: 20px; display: block;
+    filter: grayscale(1) brightness(0); opacity: 0.9;
   }
   .ta-tour__brand {
-    font-size: 13px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin: 0;
-    line-height: 1;
+    font-size: 13px; letter-spacing: 0.08em;
+    text-transform: uppercase; margin: 0; line-height: 1;
   }
   .ta-tour__metrics {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px 12px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px;
   }
   .ta-tour__metric-label {
-    display: block;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ta-muted);
-    margin: 0 0 2px;
-    line-height: 1.2;
+    display: block; font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ta-muted);
+    margin: 0 0 2px; line-height: 1.2;
   }
   .ta-tour__metric-value {
-    display: block;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 28px;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin: 0;
+    display: block; font-family: Georgia, "Times New Roman", serif;
+    font-size: 28px; line-height: 1.05; letter-spacing: -0.02em; margin: 0;
   }
-
   .ta-tour__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    list-style: none; margin: 0; padding: 0;
     border-top: 1px solid var(--ta-line);
   }
   .ta-tour__row {
     display: grid;
-    grid-template-columns: 5.5rem minmax(0, 1.1fr) minmax(0, 1.2fr);
+    grid-template-columns: 5.5rem minmax(0, 1.05fr) minmax(0, 1.35fr);
     gap: 10px 14px;
-    align-items: baseline;
+    align-items: start;
     padding: 14px 4px;
     border-bottom: 1px solid var(--ta-line);
   }
@@ -131,53 +98,40 @@
       gap: 2px 12px;
       padding: 12px 4px;
     }
-    .ta-tour__date { grid-area: date; }
+    .ta-tour__date { grid-area: date; padding-top: 4px; }
     .ta-tour__city { grid-area: city; }
     .ta-tour__venue { grid-area: venue; }
   }
   .ta-tour__date {
-    font-family: Courier, "Courier New", monospace;
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ta-ink);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
-    white-space: nowrap;
+    font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: underline; text-underline-offset: 3px;
+    text-decoration-thickness: 1px; white-space: nowrap; padding-top: 3px;
   }
   .ta-tour__date:hover { color: var(--ta-navy); }
   .ta-tour__city {
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 20px;
-    line-height: 1.15;
-    letter-spacing: -0.01em;
-    margin: 0;
-    min-width: 0;
+    font-size: 20px; line-height: 1.15; letter-spacing: -0.01em;
+    margin: 0; min-width: 0;
   }
-  .ta-tour__venue {
-    font-family: Courier, "Courier New", monospace;
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--ta-muted);
-    margin: 0;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .ta-tour__venue { margin: 0; min-width: 0; }
+  .ta-tour__building {
+    display: block;
+    font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--ta-ink); line-height: 1.35;
+  }
+  .ta-tour__tour {
+    display: block;
+    font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--ta-muted); line-height: 1.35; margin-top: 2px;
   }
   .ta-tour__status {
-    font-size: 11px;
-    color: var(--ta-muted);
-    padding: 10px 4px;
-    margin: 0;
+    font-size: 11px; color: var(--ta-muted);
+    padding: 10px 4px; margin: 0;
   }
-  .ta-tour__status--err { color: #8a2f2f; }
 </style>
 
-<div class="ta-tour" data-artist-id="817" data-artist-slug="TobyMac" data-app-id="js_www">
+<div class="ta-tour">
   <p class="ta-tour__label">Tour</p>
-
   <a class="ta-tour__head" href="https://www.bandsintown.com/a/817-tobymac" target="_blank" rel="noopener">
     <div class="ta-tour__head-top">
       <img class="ta-tour__ico" src="https://cdn.jsdelivr.net/gh/boerhauseddy/boerhaus-icons@main/public/bandsintown.svg" alt="" width="20" height="20" />
@@ -186,119 +140,54 @@
     <div class="ta-tour__metrics">
       <div>
         <span class="ta-tour__metric-label">Followers</span>
-        <span class="ta-tour__metric-value" data-bit="followers">1.8M</span>
+        <span class="ta-tour__metric-value">1.8M</span>
       </div>
       <div>
         <span class="ta-tour__metric-label">Concerts on sale</span>
-        <span class="ta-tour__metric-value" data-bit="count">—</span>
+        <span class="ta-tour__metric-value">44</span>
       </div>
     </div>
   </a>
-
-  <ul class="ta-tour__list" data-bit="list">
-    <li class="ta-tour__status">Loading dates…</li>
-  </ul>
+  <ul class="ta-tour__list" data-bit="list"></ul>
 </div>
 
 <script>
 (function () {
   var root = document.querySelector(".ta-tour");
   if (!root) return;
-
-  var slug = root.getAttribute("data-artist-slug") || "TobyMac";
-  var appId = root.getAttribute("data-app-id") || "js_www";
   var listEl = root.querySelector('[data-bit="list"]');
-  var countEl = root.querySelector('[data-bit="count"]');
-  var followersEl = root.querySelector('[data-bit="followers"]');
-
-  function fmtFollowers(n) {
-    n = Number(n) || 0;
-    if (n >= 1e6) return (Math.round(n / 1e5) / 10).toFixed(1).replace(/\.0$/, "") + "M";
-    if (n >= 1e3) return Math.round(n / 1e3) + "K";
-    return String(n);
-  }
+  var events = [{"datetime":"2026-09-19T19:00:00","city":"Waite Park","region":"MN","building":"","tour":"Celebrate Minnesota","href":"https://www.bandsintown.com/t/108135058?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2026-11-05T19:00:00","city":"Columbia","region":"MO","building":"Mizzou Arena","tour":"Chris Tomlin, Third Day & TobyMac","href":"https://www.bandsintown.com/t/108368760?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2026-11-06T19:00:00","city":"Evansville","region":"IN","building":"Ford Center","tour":"Chris Tomlin, Third Day & TobyMac","href":"https://www.bandsintown.com/t/108368756?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2026-11-07T19:00:00","city":"New Cleveland","region":"OH","building":"Wolstein Center","tour":"Chris Tomlin, Third Day & TobyMac","href":"https://www.bandsintown.com/t/108368759?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2026-11-08T19:00:00","city":"Greensboro","region":"NC","building":"First Horizon Coliseum","tour":"Chris Tomlin, Third Day & TobyMac","href":"https://www.bandsintown.com/t/108368754?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2026-11-12T19:00:00","city":"Hershey","region":"PA","building":"GIANT Center","tour":"Chris Tomlin, Third Day & TobyMac","href":"https://www.bandsintown.com/t/108368752?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2026-11-13T19:00:00","city":"Buffalo","region":"NY","building":"KeyBank Center","tour":"Chris Tomlin, Third Day & TobyMac","href":"https://www.bandsintown.com/t/108368753?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2026-11-14T19:00:00","city":"Portland","region":"ME","building":"Cross Insurance Arena","tour":"Chris Tomlin, Third Day & TobyMac","href":"https://www.bandsintown.com/t/108368761?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2026-11-15T19:00:00","city":"Baltimore","region":"MD","building":"CFG Bank Arena","tour":"Chris Tomlin, Third Day & TobyMac","href":"https://www.bandsintown.com/t/108368757?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2026-11-19T19:00:00","city":"Des Moines","region":"IA","building":"Casey's Center","tour":"Chris Tomlin, Third Day & TobyMac","href":"https://www.bandsintown.com/t/108368755?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2026-11-20T19:00:00","city":"Lincoln","region":"NE","building":"Pinnacle Bank Arena","tour":"Chris Tomlin, Third Day & TobyMac","href":"https://www.bandsintown.com/t/108368758?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2026-11-21T19:00:00","city":"Peoria","region":"IL","building":"Peoria Civic Center","tour":"Chris Tomlin, Third Day & TobyMac","href":"https://www.bandsintown.com/t/108368762?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2026-11-22T19:00:00","city":"North Little Rock","region":"AR","building":"Simmons Bank Arena","tour":"Chris Tomlin, Third Day & TobyMac","href":"https://www.bandsintown.com/t/108368763?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-01-28T19:00:00","city":"Fayetteville","region":"NC","building":"Crown Complex","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836301?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-01-29T19:00:00","city":"Lexington","region":"KY","building":"Rupp Arena","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836308?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-01-30T19:00:00","city":"Huntsville","region":"AL","building":"Von Braun Center","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836321?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-01-31T18:30:00","city":"Lafayette","region":"LA","building":"Cajundome & Convention Center","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836309?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-02-04T19:00:00","city":"Tampa","region":"FL","building":"Benchmark International Arena","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836313?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-02-05T19:00:00","city":"Sunrise","region":"FL","building":"Amerant Bank Arena","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836294?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-02-06T19:00:00","city":"Orlando","region":"FL","building":"Kia Center","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836300?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-02-07T18:30:00","city":"Estero","region":"FL","building":"Hertz Arena","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836297?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-02-11T19:00:00","city":"Pensacola","region":"FL","building":"Pensacola Bay Center","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836303?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-02-12T19:00:00","city":"Sugar Land","region":"TX","building":"Smart Financial Centre at Sugar Land","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836305?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-02-13T19:00:00","city":"Grand Prairie","region":"TX","building":"Texas Trust CU Theatre","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836314?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-02-18T19:00:00","city":"Columbus","region":"OH","building":"Nationwide Arena","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836304?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-02-19T19:00:00","city":"Fairfax","region":"VA","building":"Thompson Hall","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836319?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-02-20T19:00:00","city":"Fairfax","region":"VA","building":"Thompson Hall","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836293?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-02-21T18:30:00","city":"Norfolk","region":"VA","building":"Chartway Arena at the Ted Constant Convocation Center","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836302?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-02-25T19:00:00","city":"Jacksonville","region":"FL","building":"VyStar Veterans Memorial Arena","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836298?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-02-26T19:00:00","city":"Nashville","region":"TN","building":"Bridgestone Arena","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836306?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-02-27T19:00:00","city":"Duluth","region":"GA","building":"Gas South Convention Center","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836316?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-02-28T18:30:00","city":"Knoxville","region":"TN","building":"Thompson-Boling Arena","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836295?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-03-04T19:00:00","city":"Toledo","region":"OH","building":"Huntington Center","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836322?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-03-05T19:00:00","city":"Fishers","region":"IN","building":"Fishers Event Center","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836310?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-03-06T19:00:00","city":"Cape Girardeau","region":"MO","building":"Show Me Center","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836299?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-03-07T18:30:00","city":"Grand Rapids","region":"MI","building":"Van Andel Arena","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836317?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-03-11T19:00:00","city":"Austin","region":"TX","building":"Moody Center","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836318?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-03-12T19:00:00","city":"San Antonio","region":"TX","building":"Freeman Coliseum","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836296?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-03-13T19:00:00","city":"Lubbock","region":"TX","building":"United Supermarkets Arena","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836320?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-03-16T19:00:00","city":"Sioux Falls","region":"SD","building":"Denny Sanford PREMIER Center","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836312?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-03-17T19:00:00","city":"Fargo","region":"ND","building":"Apartment 1701","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836311?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-03-19T19:00:00","city":"Rockford","region":"IL","building":"BMO Center Box Office","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836307?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-03-20T19:00:00","city":"St Louis","region":"MO","building":"Compton at Laclede","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836323?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"},{"datetime":"2027-03-21T18:30:00","city":"Tulsa","region":"OK","building":"BOK Box Office","tour":"Hits Deep Tour","href":"https://www.bandsintown.com/t/108836315?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket&app_id=js_www"}];
 
   function fmtDate(iso) {
-    var d = new Date(iso);
-    if (isNaN(d.getTime())) {
-      // BIT often sends local wall time without Z — parse as local parts
-      var m = String(iso || "").match(/(\d{4})-(\d{2})-(\d{2})/);
-      if (!m) return "";
-      d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
-    }
+    var m = String(iso || "").match(/(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return "";
     var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-    return months[d.getMonth()] + " " + d.getDate();
+    return months[Number(m[2]) - 1] + " " + Number(m[3]);
+  }
+  function cityState(ev) {
+    if (ev.city && ev.region) return ev.city + ", " + ev.region;
+    return ev.city || ev.region || "";
   }
 
-  function cityState(venue) {
-    if (!venue) return "";
-    var city = venue.city || "";
-    var region = venue.region || "";
-    if (city && region) return city + ", " + region;
-    return venue.location || city || region || "";
+  listEl.innerHTML = "";
+  if (!events.length) {
+    listEl.innerHTML = '<li class="ta-tour__status">No upcoming dates right now.</li>';
+    return;
   }
-
-  function ticketUrl(ev) {
-    var offers = ev.offers || [];
-    for (var i = 0; i < offers.length; i++) {
-      if (offers[i].type === "Tickets" && offers[i].url) return offers[i].url;
-    }
-    for (var j = 0; j < offers.length; j++) {
-      if (offers[j].url) return offers[j].url;
-    }
-    return ev.url || "#";
-  }
-
-  function render(events, artist) {
-    if (artist && artist.tracker_count != null && followersEl) {
-      followersEl.textContent = fmtFollowers(artist.tracker_count);
-    }
-    var onSale = (events || []).filter(function (ev) {
-      if (ev.sold_out) return false;
-      var offers = ev.offers || [];
-      if (!offers.length) return true; // published date still counts
-      return offers.some(function (o) {
-        return o.type === "Tickets" && o.status === "available";
-      }) || offers.some(function (o) { return o.status === "available"; });
-    });
-    // Total published upcoming dates (user ask: count all published dates)
-    var total = (events || []).length;
-    if (countEl) countEl.textContent = String(total);
-
-    if (!listEl) return;
-    listEl.innerHTML = "";
-    if (!total) {
-      listEl.innerHTML = '<li class="ta-tour__status">No upcoming dates right now.</li>';
-      return;
-    }
-    events.forEach(function (ev) {
-      var venue = ev.venue || {};
-      var li = document.createElement("li");
-      li.className = "ta-tour__row";
-      var href = ticketUrl(ev);
-      li.innerHTML =
-        '<a class="ta-tour__date" href="' + href + '" target="_blank" rel="noopener">' +
-          fmtDate(ev.datetime || ev.starts_at) +
-        "</a>" +
-        '<p class="ta-tour__city">' + cityState(venue) + "</p>" +
-        '<p class="ta-tour__venue">' + (venue.name || ev.title || "") + "</p>";
-      listEl.appendChild(li);
-    });
-  }
-
-  var base = "https://rest.bandsintown.com/artists/" + encodeURIComponent(slug);
-  var q = "?app_id=" + encodeURIComponent(appId);
-
-  Promise.all([
-    fetch(base + "/events" + q).then(function (r) { if (!r.ok) throw new Error("events " + r.status); return r.json(); }),
-    fetch(base + q).then(function (r) { if (!r.ok) throw new Error("artist " + r.status); return r.json(); })
-  ]).then(function (pair) {
-    render(pair[0], pair[1]);
-  }).catch(function (err) {
-    if (listEl) {
-      listEl.innerHTML = '<li class="ta-tour__status ta-tour__status--err">Couldn’t load tour dates. Open Bandsintown for the full list.</li>';
-    }
-    console.warn("ta-tour", err);
+  events.forEach(function (ev) {
+    var li = document.createElement("li");
+    li.className = "ta-tour__row";
+    var venueHtml = "";
+    if (ev.building) venueHtml += '<span class="ta-tour__building">' + ev.building + "</span>";
+    if (ev.tour) venueHtml += '<span class="ta-tour__tour">' + ev.tour + "</span>";
+    if (!venueHtml) venueHtml = '<span class="ta-tour__building">—</span>';
+    li.innerHTML =
+      '<a class="ta-tour__date" href="' + (ev.href || "#") + '" target="_blank" rel="noopener">' +
+        fmtDate(ev.datetime) +
+      "</a>" +
+      '<p class="ta-tour__city">' + cityState(ev) + "</p>" +
+      '<p class="ta-tour__venue">' + venueHtml + "</p>";
+    listEl.appendChild(li);
   });
 })();
 </script>
