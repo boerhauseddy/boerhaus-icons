@@ -180,7 +180,7 @@
   var listEl = root.querySelector('[data-bit="list"]');
   var countEl = root.querySelector('[data-bit="count"]');
   var followersEl = root.querySelector('[data-bit="followers"]');
-  var inlineOverrides = {"108836301":"Crown Complex","108836308":"Rupp Arena","108836321":"Von Braun Center","108836309":"Cajundome & Convention Center","108836313":"Benchmark International Arena","108836294":"Amerant Bank Arena","108836300":"Kia Center","108836297":"Hertz Arena","108836303":"Pensacola Bay Center","108836305":"Smart Financial Centre at Sugar Land","108836314":"Texas Trust CU Theatre","108836304":"Nationwide Arena","108836319":"EagleBank Arena","108836293":"EagleBank Arena","108836302":"Chartway Arena at the Ted Constant Convocation Center","108836298":"VyStar Veterans Memorial Arena","108836306":"Bridgestone Arena","108836316":"Gas South Convention Center","108836295":"Thompson-Boling Arena","108836322":"Huntington Center","108836310":"Fishers Event Center","108836299":"Show Me Center","108836317":"Van Andel Arena","108836318":"Moody Center","108836296":"Freeman Coliseum","108836320":"United Supermarkets Arena","108836312":"Denny Sanford PREMIER Center","108836311":"Fargodome","108836307":"BMO Center","108836323":"Chaifetz Arena","108836315":"BOK Center"};
+  var inlineOverrides = {"108368752":"GIANT Center","108368753":"KeyBank Center","108368754":"First Horizon Coliseum","108368755":"Casey's Center","108368756":"Ford Center","108368757":"CFG Bank Arena","108368758":"Pinnacle Bank Arena","108368759":"Wolstein Center","108368760":"Mizzou Arena","108368761":"Cross Insurance Arena","108368762":"Peoria Civic Center","108368763":"Simmons Bank Arena","108836293":"EagleBank Arena","108836294":"Amerant Bank Arena","108836295":"Thompson-Boling Arena","108836296":"Freeman Coliseum","108836297":"Hertz Arena","108836298":"VyStar Veterans Memorial Arena","108836299":"Show Me Center","108836300":"Kia Center","108836301":"Crown Complex","108836302":"Chartway Arena at the Ted Constant Convocation Center","108836303":"Pensacola Bay Center","108836304":"Nationwide Arena","108836305":"Smart Financial Centre at Sugar Land","108836306":"Bridgestone Arena","108836307":"BMO Center","108836308":"Rupp Arena","108836309":"Cajundome & Convention Center","108836310":"Fishers Event Center","108836311":"Fargodome","108836312":"Denny Sanford PREMIER Center","108836313":"Benchmark International Arena","108836314":"Texas Trust CU Theatre","108836315":"BOK Center","108836316":"Gas South Convention Center","108836317":"Van Andel Arena","108836318":"Moody Center","108836319":"EagleBank Arena","108836320":"United Supermarkets Arena","108836321":"Von Braun Center","108836322":"Huntington Center","108836323":"Chaifetz Arena"};
 
   function fmtFollowers(n) {
     n = Number(n) || 0;
@@ -334,7 +334,7 @@
     render(pair[0], pair[1], pair[2]);
   }).catch(function (err) {
     if (listEl) {
-      listEl.innerHTML = '<p class="ta-tour__status ta-tour__status--err">Couldn’t load tour dates. Try again in a moment.</p>';
+      listEl.innerHTML = '<p class="ta-tour__status ta-tour__status--err">Couldn\u2019t load tour dates. Try again in a moment.</p>';
     }
     console.warn("ta-tour", err);
   });
