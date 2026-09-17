@@ -1,1 +1,307 @@
-PLACEHOLDER_WILL_REPLACE
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TobyMac — Tour preview</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px 16px 48px;
+      background: #f7f7f5;
+      color: #111;
+    }
+    .preview-note {
+      font-family: Courier, monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #666;
+      margin: 0 0 20px;
+    }
+  </style>
+</head>
+<body>
+  <p class="preview-note">Preview · True Artist / TobyMac tour</p>
+<!-- True Artist / TobyMac — Tour dates (custom BIT list)
+     Header: Bandsintown card (logo + followers + live show count)
+     Rows: DATE (Courier, linked) / City, ST (Georgia) / venue (Courier)
+     Live data from BIT public API — no Tickets button
+     For Jon later: change ARTIST_ID / ARTIST_SLUG -->
+<style>
+  .ta-tour {
+    --ta-ink: #111111;
+    --ta-muted: #666666;
+    --ta-line: #dddddd;
+    --ta-paper: #ffffff;
+    --ta-navy: #0a1f44;
+    --ta-radius: 10px;
+    font-family: Courier, "Courier New", monospace;
+    color: var(--ta-ink);
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 8px 0 32px;
+  }
+  .ta-tour * { box-sizing: border-box; }
+  .ta-tour a { color: inherit; text-decoration: none; }
+  .ta-tour__label {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ta-muted);
+    margin: 0 0 14px;
+    padding: 0 4px;
+  }
+
+  /* BIT header card — same language as stats widgets */
+  .ta-tour__head {
+    display: block;
+    background: var(--ta-paper);
+    border: 1px solid var(--ta-line);
+    border-radius: var(--ta-radius);
+    padding: 16px 16px 14px;
+    margin: 0 0 18px;
+    transition: opacity 0.15s ease;
+  }
+  .ta-tour__head:hover { opacity: 0.85; }
+  .ta-tour__head-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 20px;
+    margin: 0 0 14px;
+  }
+  .ta-tour__ico {
+    width: 20px;
+    height: 20px;
+    display: block;
+    filter: grayscale(1) brightness(0);
+    opacity: 0.9;
+  }
+  .ta-tour__brand {
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1;
+  }
+  .ta-tour__metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 12px;
+  }
+  .ta-tour__metric-label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ta-muted);
+    margin: 0 0 2px;
+    line-height: 1.2;
+  }
+  .ta-tour__metric-value {
+    display: block;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 28px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .ta-tour__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--ta-line);
+  }
+  .ta-tour__row {
+    display: grid;
+    grid-template-columns: 5.5rem minmax(0, 1.1fr) minmax(0, 1.2fr);
+    gap: 10px 14px;
+    align-items: baseline;
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--ta-line);
+  }
+  @media (max-width: 560px) {
+    .ta-tour__row {
+      grid-template-columns: 4.5rem minmax(0, 1fr);
+      grid-template-areas:
+        "date city"
+        "date venue";
+      gap: 2px 12px;
+      padding: 12px 4px;
+    }
+    .ta-tour__date { grid-area: date; }
+    .ta-tour__city { grid-area: city; }
+    .ta-tour__venue { grid-area: venue; }
+  }
+  .ta-tour__date {
+    font-family: Courier, "Courier New", monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ta-ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    white-space: nowrap;
+  }
+  .ta-tour__date:hover { color: var(--ta-navy); }
+  .ta-tour__city {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 20px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin: 0;
+    min-width: 0;
+  }
+  .ta-tour__venue {
+    font-family: Courier, "Courier New", monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ta-muted);
+    margin: 0;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ta-tour__status {
+    font-size: 11px;
+    color: var(--ta-muted);
+    padding: 10px 4px;
+    margin: 0;
+  }
+  .ta-tour__status--err { color: #8a2f2f; }
+</style>
+
+<div class="ta-tour" data-artist-id="817" data-artist-slug="TobyMac" data-app-id="js_www">
+  <p class="ta-tour__label">Tour</p>
+
+  <a class="ta-tour__head" href="https://www.bandsintown.com/a/817-tobymac" target="_blank" rel="noopener">
+    <div class="ta-tour__head-top">
+      <img class="ta-tour__ico" src="https://cdn.jsdelivr.net/gh/boerhauseddy/boerhaus-icons@main/public/bandsintown.svg" alt="" width="20" height="20" />
+      <p class="ta-tour__brand">Bandsintown</p>
+    </div>
+    <div class="ta-tour__metrics">
+      <div>
+        <span class="ta-tour__metric-label">Followers</span>
+        <span class="ta-tour__metric-value" data-bit="followers">1.8M</span>
+      </div>
+      <div>
+        <span class="ta-tour__metric-label">Concerts on sale</span>
+        <span class="ta-tour__metric-value" data-bit="count">—</span>
+      </div>
+    </div>
+  </a>
+
+  <ul class="ta-tour__list" data-bit="list">
+    <li class="ta-tour__status">Loading dates…</li>
+  </ul>
+</div>
+
+<script>
+(function () {
+  var root = document.querySelector(".ta-tour");
+  if (!root) return;
+
+  var slug = root.getAttribute("data-artist-slug") || "TobyMac";
+  var appId = root.getAttribute("data-app-id") || "js_www";
+  var listEl = root.querySelector('[data-bit="list"]');
+  var countEl = root.querySelector('[data-bit="count"]');
+  var followersEl = root.querySelector('[data-bit="followers"]');
+
+  function fmtFollowers(n) {
+    n = Number(n) || 0;
+    if (n >= 1e6) return (Math.round(n / 1e5) / 10).toFixed(1).replace(/\.0$/, "") + "M";
+    if (n >= 1e3) return Math.round(n / 1e3) + "K";
+    return String(n);
+  }
+
+  function fmtDate(iso) {
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) {
+      // BIT often sends local wall time without Z — parse as local parts
+      var m = String(iso || "").match(/(\d{4})-(\d{2})-(\d{2})/);
+      if (!m) return "";
+      d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+    }
+    var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    return months[d.getMonth()] + " " + d.getDate();
+  }
+
+  function cityState(venue) {
+    if (!venue) return "";
+    var city = venue.city || "";
+    var region = venue.region || "";
+    if (city && region) return city + ", " + region;
+    return venue.location || city || region || "";
+  }
+
+  function ticketUrl(ev) {
+    var offers = ev.offers || [];
+    for (var i = 0; i < offers.length; i++) {
+      if (offers[i].type === "Tickets" && offers[i].url) return offers[i].url;
+    }
+    for (var j = 0; j < offers.length; j++) {
+      if (offers[j].url) return offers[j].url;
+    }
+    return ev.url || "#";
+  }
+
+  function render(events, artist) {
+    if (artist && artist.tracker_count != null && followersEl) {
+      followersEl.textContent = fmtFollowers(artist.tracker_count);
+    }
+    var onSale = (events || []).filter(function (ev) {
+      if (ev.sold_out) return false;
+      var offers = ev.offers || [];
+      if (!offers.length) return true; // published date still counts
+      return offers.some(function (o) {
+        return o.type === "Tickets" && o.status === "available";
+      }) || offers.some(function (o) { return o.status === "available"; });
+    });
+    // Total published upcoming dates (user ask: count all published dates)
+    var total = (events || []).length;
+    if (countEl) countEl.textContent = String(total);
+
+    if (!listEl) return;
+    listEl.innerHTML = "";
+    if (!total) {
+      listEl.innerHTML = '<li class="ta-tour__status">No upcoming dates right now.</li>';
+      return;
+    }
+    events.forEach(function (ev) {
+      var venue = ev.venue || {};
+      var li = document.createElement("li");
+      li.className = "ta-tour__row";
+      var href = ticketUrl(ev);
+      li.innerHTML =
+        '<a class="ta-tour__date" href="' + href + '" target="_blank" rel="noopener">' +
+          fmtDate(ev.datetime || ev.starts_at) +
+        "</a>" +
+        '<p class="ta-tour__city">' + cityState(venue) + "</p>" +
+        '<p class="ta-tour__venue">' + (venue.name || ev.title || "") + "</p>";
+      listEl.appendChild(li);
+    });
+  }
+
+  var base = "https://rest.bandsintown.com/artists/" + encodeURIComponent(slug);
+  var q = "?app_id=" + encodeURIComponent(appId);
+
+  Promise.all([
+    fetch(base + "/events" + q).then(function (r) { if (!r.ok) throw new Error("events " + r.status); return r.json(); }),
+    fetch(base + q).then(function (r) { if (!r.ok) throw new Error("artist " + r.status); return r.json(); })
+  ]).then(function (pair) {
+    render(pair[0], pair[1]);
+  }).catch(function (err) {
+    if (listEl) {
+      listEl.innerHTML = '<li class="ta-tour__status ta-tour__status--err">Couldn’t load tour dates. Open Bandsintown for the full list.</li>';
+    }
+    console.warn("ta-tour", err);
+  });
+})();
+</script>
+
+</body>
+</html>
