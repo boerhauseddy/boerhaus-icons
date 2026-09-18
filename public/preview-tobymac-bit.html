@@ -1,1 +1,39 @@
-PLACEHOLDER_DO_NOT_USE
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TobyMac — Tour preview</title>
+  <style>
+    body { margin:0; padding:20px 16px 48px; background:#f7f7f5; color:#111; }
+    .preview-note { font-family:Courier,monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#666; margin:0 0 20px; }
+  </style>
+</head>
+<body>
+  <p class="preview-note">Preview · live BIT · next 6 + see all expands in-page + tickets bubble</p>
+  <div id="ta-mount"><p class="preview-note">Loading widget…</p></div>
+  <script>
+  (async function () {
+    var url = "https://cdn.jsdelivr.net/gh/boerhauseddy/boerhaus-icons@main/public/ta-tobymac-bandsintown.txt?t=" + Date.now();
+    try {
+      var res = await fetch(url);
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      var html = await res.text();
+      var mount = document.getElementById("ta-mount");
+      mount.innerHTML = html;
+      // innerHTML does not execute scripts — re-inject them
+      Array.prototype.slice.call(mount.querySelectorAll("script")).forEach(function (old) {
+        var s = document.createElement("script");
+        if (old.src) s.src = old.src;
+        else s.textContent = old.textContent;
+        old.parentNode.replaceChild(s, old);
+      });
+    } catch (err) {
+      document.getElementById("ta-mount").innerHTML =
+        '<p style="font-family:Courier,monospace;color:#8a2f2f">Could not load tour widget.</p>';
+      console.warn("preview", err);
+    }
+  })();
+  </script>
+</body>
+</html>
