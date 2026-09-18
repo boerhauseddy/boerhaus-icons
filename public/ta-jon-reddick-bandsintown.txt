@@ -1,5 +1,5 @@
 <!-- True Artist / Jon Reddick — Tour (LIVE)
-     Next 6 dates + See all N → Bandsintown
+     Next 6 dates + See all expands the list in-page (not BIT)
      BIT bubble (followers + on sale) + tickets-sold bubble (PLACEHOLDER — swap data-tickets-sold)
      Grouped by tour; public app_id js_www only -->
 <style>
@@ -140,14 +140,22 @@
   }
   .ta-tour__more {
     display: block;
+    width: 100%;
+    box-sizing: border-box;
+    background: none;
+    border: 0;
+    border-top: 1px solid var(--ta-line);
     margin: 18px 4px 0;
     padding: 12px 0 0;
-    border-top: 1px solid var(--ta-line);
+    font-family: inherit;
     font-size: 12px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     text-decoration: underline;
     text-underline-offset: 3px;
+    text-align: left;
+    color: inherit;
+    cursor: pointer;
   }
   .ta-tour__more:hover { color: var(--ta-navy); }
   .ta-tour__status {
@@ -215,6 +223,10 @@
   var slug = root.getAttribute("data-artist-slug") || "id_15490271";
   var appId = root.getAttribute("data-app-id") || "js_www";
   var limit = parseInt(root.getAttribute("data-limit") || "6", 10) || 6;
+  var expanded = false;
+  var cachedEvents = null;
+  var cachedArtist = null;
+  var cachedOverrides = null;
   var bitUrl = root.getAttribute("data-bit-url") || "https://www.bandsintown.com/a/15490271-jon-reddick";
   var overridesUrl = root.getAttribute("data-overrides-url") || "";
   var listEl = root.querySelector('[data-bit="list"]');
@@ -334,7 +346,11 @@
       return;
     }
 
-    var shown = all.slice(0, limit);
+    cachedEvents = all;
+    cachedArtist = artist;
+    cachedOverrides = overrides;
+
+    var shown = expanded ? all : all.slice(0, limit);
     var groups = groupByTour(shown);
     groups.forEach(function (group) {
       var section = document.createElement("section");
@@ -361,12 +377,16 @@
     });
 
     if (total > limit) {
-      var more = document.createElement("a");
+      var more = document.createElement("button");
+      more.type = "button";
       more.className = "ta-tour__more";
-      more.href = bitUrl;
-      more.target = "_blank";
-      more.rel = "noopener";
-      more.textContent = "See all " + total + " dates";
+      more.textContent = expanded
+        ? "Show fewer dates"
+        : ("See all " + total + " dates");
+      more.addEventListener("click", function () {
+        expanded = !expanded;
+        render(cachedEvents, cachedArtist, cachedOverrides);
+      });
       listEl.appendChild(more);
     }
   }
