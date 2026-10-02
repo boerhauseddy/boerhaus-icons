@@ -4,6 +4,11 @@ compatibility_date = "2025-09-16"
 [assets]
 directory = "./public"
 
+# Canonical icon bank host
+[[routes]]
+pattern = "icons.boerhaus.com"
+custom_domain = true
+
 # Lab/demo host (same Workers assets project until boerhaus-studio splits out)
 [[routes]]
 pattern = "studio.boerhaus.com"
