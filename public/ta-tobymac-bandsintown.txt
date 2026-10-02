@@ -1,4 +1,1 @@
-<!-- True Artist / TobyMac — Tour (LIVE)
-     Next 6 dates + See all expands the list in-page (not BIT)
-     BIT bubble (followers + on sale) + tickets-sold bubble (PLACEHOLDER — swap data-tickets-sold)
-     Grouped by tour; public app_id js_www only -->
+LOAD_FROM_FILE
