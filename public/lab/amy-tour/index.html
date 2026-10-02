@@ -9,21 +9,20 @@
 <body style="font-family:Courier,monospace;background:#f4efe6;color:#1a1714;padding:24px">
 <p>Loading Amy Grant tour demo…</p>
 <script>
-(function(){
-  var base = "https://cdn.jsdelivr.net/gh/boerhauseddy/boerhaus-icons@main/public/lab/amy-tour/";
-  var t = "?t=" + Date.now();
-  Promise.all([0,1,2].map(function(i){
-    return fetch(base + "part" + i + ".txt" + t).then(function(r){
-      if(!r.ok) throw new Error("part" + i + " " + r.status);
-      return r.text();
-    });
-  })).then(function(parts){
+(async function () {
+  try {
+    var url = "https://cdn.jsdelivr.net/gh/boerhauseddy/boerhaus-icons@main/public/lab/amy-tour/page.b64gz.txt?t=" + Date.now();
+    var b64 = await fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); });
+    var bin = Uint8Array.from(atob(b64.trim()), function (c) { return c.charCodeAt(0); });
+    var ds = new DecompressionStream("gzip");
+    var stream = new Blob([bin]).stream().pipeThrough(ds);
+    var html = await new Response(stream).text();
     document.open();
-    document.write(parts.join(""));
+    document.write(html);
     document.close();
-  }).catch(function(err){
-    document.body.innerHTML = "<p style=\"color:#8a2f2f\">Could not assemble demo.</p><pre>" + err + "</pre><p>Open <code>/workspace/amy-grant-tour-demo/index.html</code> locally, or paste <code>ta-amy-grant-bandsintown.txt</code> into a Squarespace code block.</p>";
-  });
+  } catch (err) {
+    document.body.innerHTML = "<p style=\"color:#8a2f2f\">Could not load demo (" + err + ").</p><p>Open local file <code>/workspace/amy-grant-tour-demo/index.html</code> or paste <code>ta-amy-grant-bandsintown.txt</code> into a Squarespace code block.</p>";
+  }
 })();
 </script>
 </body>
