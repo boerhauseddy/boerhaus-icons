@@ -11,7 +11,7 @@
 <script>
 (async function () {
   try {
-    var url = "https://cdn.jsdelivr.net/gh/boerhauseddy/boerhaus-icons@main/public/lab/amy-tour/page.b64gz.txt?t=" + Date.now();
+    var url = "page.b64gz.txt?t=" + Date.now();
     var b64 = await fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); });
     var bin = Uint8Array.from(atob(b64.trim()), function (c) { return c.charCodeAt(0); });
     var ds = new DecompressionStream("gzip");
@@ -21,7 +21,7 @@
     document.write(html);
     document.close();
   } catch (err) {
-    document.body.innerHTML = "<p style=\"color:#8a2f2f\">Could not load demo (" + err + ").</p><p>Open local file <code>/workspace/amy-grant-tour-demo/index.html</code> or paste <code>ta-amy-grant-bandsintown.txt</code> into a Squarespace code block.</p>";
+    document.body.innerHTML = "<p style=\"color:#8a2f2f\">Could not load demo (" + err + ").</p><p>Local fallback: open <code>/workspace/amy-grant-tour-demo/index.html</code>.</p>";
   }
 })();
 </script>
