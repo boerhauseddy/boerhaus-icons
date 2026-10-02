@@ -4,7 +4,7 @@ compatibility_date = "2025-09-16"
 [assets]
 directory = "./public"
 
-# Canonical icon bank host
+# Canonical icon bank host (keep BOTH hosts; dropping icons breaks public DNS)
 [[routes]]
 pattern = "icons.boerhaus.com"
 custom_domain = true
