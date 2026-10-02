@@ -16,9 +16,15 @@
 <script>
 (async function () {
   try {
-    var url = "page.b64gz.txt?t=" + Date.now();
-    var b64 = await fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); });
-    var bin = Uint8Array.from(atob(b64.trim()), function (c) { return c.charCodeAt(0); });
+    var t = Date.now();
+    var parts = await Promise.all([0,1,2].map(function (i) {
+      return fetch("page.b64gz.part" + i + ".txt?t=" + t).then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        return r.text();
+      });
+    }));
+    var b64 = parts.join("").replace(/\s+/g, "");
+    var bin = Uint8Array.from(atob(b64), function (c) { return c.charCodeAt(0); });
     var ds = new DecompressionStream("gzip");
     var stream = new Blob([bin]).stream().pipeThrough(ds);
     var html = await new Response(stream).text();
@@ -26,7 +32,16 @@
     document.write(html);
     document.close();
   } catch (err) {
-    document.body.innerHTML = "<p style=\"color:#8a2f2f\">Could not load demo (" + err + ").</p><p><a href=\"https://studio.boerhaus.com/amy-tour/\">Open on studio.boerhaus.com</a></p>";
+    try {
+      var b64 = await fetch("page.b64gz.txt?t=" + Date.now()).then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); });
+      var bin = Uint8Array.from(atob(b64.trim()), function (c) { return c.charCodeAt(0); });
+      var ds = new DecompressionStream("gzip");
+      var stream = new Blob([bin]).stream().pipeThrough(ds);
+      var html = await new Response(stream).text();
+      document.open(); document.write(html); document.close();
+    } catch (err2) {
+      document.body.innerHTML = "<p style=\"color:#8a2f2f\">Could not load demo (" + err2 + ").</p><p><a href=\"https://studio.boerhaus.com/amy-tour/\">Open on studio.boerhaus.com</a></p>";
+    }
   }
 })();
 </script>
