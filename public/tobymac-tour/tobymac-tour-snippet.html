@@ -19,9 +19,9 @@
 <!-- TobyMac — Tour dates (Boerhaus studio prototype)
      Live Bandsintown only (artist id 817, public app_id js_www). No dates are hard-coded.
      Styled to sit natively on tobymac.com: Inter (Google Fonts, same family/weights the site loads),
-     black / white / cream #F7F6F1 / coral #FC5E4E / charcoal #1A1A1A taken from tobymac.com.
+     text #000000 on #FFFFFF (tobymac.com /tour/ page colors); Hits Deep block keeps coral #FC5E4E.
      Tour blocks come from TMT_RULES below (match on event title or description). -->
-<!-- version: tobymac-tour-2026-11-04a -->
+<!-- version: tobymac-tour-2026-11-04c -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
@@ -48,26 +48,9 @@
 
   /* Section header — same as tobymac.com "TOUR DATES" h2.section-header */
   .tmt__title {
-    font-size: 24px; font-weight: 700; letter-spacing: 1.6px; line-height: 36px;
+    font-size: 24px; font-weight: 700; letter-spacing: 0.4px; line-height: 36px;
     text-transform: uppercase; text-align: center; margin: 0 0 28px;
   }
-
-  /* Stat boxes */
-  .tmt__stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 0 0 32px; }
-  .tmt__stat {
-    display: block; background: var(--tmt-paper);
-    border: 3px solid var(--tmt-ink); border-radius: var(--tmt-radius);
-    padding: 18px 20px 16px; min-width: 0;
-  }
-  a.tmt__stat:hover { background: var(--tmt-cream); }
-  .tmt__stat-label {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; margin: 0 0 10px;
-  }
-  .tmt__stat-label img { width: 16px; height: 16px; display: block; }
-  .tmt__stat-value { display: block; font-size: 40px; font-weight: 900; line-height: 1; letter-spacing: -0.02em; }
-  .tmt__stat-value--sm { font-size: 24px; line-height: 1.15; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .tmt__stat-note { display: block; font-size: 12px; font-weight: 500; letter-spacing: 0.64px; text-transform: uppercase; margin: 8px 0 0; opacity: 0.7; }
 
   /* Tour blocks — each a full themed card */
   .tmt__blocks { display: grid; gap: 24px; }
@@ -77,21 +60,25 @@
     background: var(--b-bg); color: var(--b-ink);
     border-radius: var(--tmt-radius); padding: 36px 40px 28px;
   }
+  .tmt__block--plain { --b-accent: #000000; }
+  /* Combined section: both tours share one container, same padding, same columns */
+  .tmt .tmt__blocks { gap: 0; border-radius: var(--tmt-radius); overflow: hidden; }
+  .tmt .tmt__block { border-radius: 0; }
   .tmt__block--charcoal { --b-bg: var(--tmt-charcoal); --b-ink: #ffffff; --b-accent: var(--tmt-coral); --b-line: rgba(255,255,255,0.16); --b-muted: rgba(255,255,255,0.66); }
   .tmt__block--coral    { --b-bg: var(--tmt-coral); --b-ink: #000000; --b-accent: #ffffff; --b-line: rgba(0,0,0,0.18); --b-muted: rgba(0,0,0,0.72); }
   .tmt__block--cream    { --b-bg: var(--tmt-cream); --b-ink: #000000; --b-accent: var(--tmt-coral); --b-line: rgba(0,0,0,0.12); --b-muted: rgba(0,0,0,0.6); }
 
   .tmt__block-head { margin: 0 0 18px; }
-  .tmt .tmt__kicker { font-size: 12px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: var(--b-accent); margin: 0 0 8px; }
+  .tmt .tmt__kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--b-accent); margin: 0 0 8px; }
   .tmt .tmt__block--coral .tmt__kicker { color: var(--b-ink); }
-  .tmt__name { font-size: 36px; font-weight: 900; letter-spacing: 1.44px; line-height: 1.1; text-transform: uppercase; }
+  .tmt__name { font-size: 36px; font-weight: 900; letter-spacing: -0.01em; line-height: 1.1; text-transform: uppercase; }
   .tmt__guests { font-size: 20px; font-weight: 500; letter-spacing: 0.4px; line-height: 1.35; margin: 8px 0 0; }
-  .tmt .tmt__range { font-size: 13px; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase; color: var(--b-muted); margin: 10px 0 0; }
+  .tmt .tmt__range { font-size: 13px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: var(--b-muted); margin: 10px 0 0; }
 
-  /* Rows: CITY (biggest) · DATE · VENUE · TICKETS */
+  /* Rows: DATE (left) · CITY (biggest) · VENUE · TICKETS (Amy layout) */
   .tmt__rows { border-top: 1px solid var(--b-line); }
   .tmt__row {
-    display: grid; grid-template-columns: minmax(0, 1.25fr) 9.5rem minmax(0, 1.25fr) auto;
+    display: grid; grid-template-columns: 8.5rem minmax(0, 1.4fr) minmax(0, 1.1fr) auto;
     gap: 6px 24px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--b-line);
   }
   .tmt__city { font-size: 24px; font-weight: 800; line-height: 1.15; letter-spacing: -0.01em; min-width: 0; }
@@ -101,7 +88,7 @@
   .tmt__btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
     min-width: 116px; height: 40px; padding: 0 14px;
-    border: 3px solid currentColor; border-radius: var(--tmt-radius);
+    border: 1.5px solid currentColor; border-radius: var(--tmt-radius);
     font-size: 14px; font-weight: 900; letter-spacing: 0.64px; text-transform: uppercase; white-space: nowrap;
     transition: background-color .15s ease, color .15s ease;
   }
@@ -115,7 +102,7 @@
 
   .tmt__more {
     display: block; width: 100%; margin: 20px 0 0; padding: 14px 0;
-    background: none; border: 3px solid currentColor; border-radius: var(--tmt-radius);
+    background: none; border: 1.5px solid currentColor; border-radius: var(--tmt-radius);
     color: inherit; font: inherit; font-size: 14px; font-weight: 900; letter-spacing: 1.2px; text-transform: uppercase; cursor: pointer;
   }
   .tmt .tmt__more:hover { background: var(--b-ink); color: var(--b-bg); }
@@ -124,30 +111,25 @@
   .tmt__source { font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; text-align: center; opacity: 0.55; margin: 20px 0 0; }
 
   @media (max-width: 900px) {
-    .tmt__stats { grid-template-columns: 1fr 1fr; }
-    .tmt__stat--next { grid-column: 1 / -1; }
-    .tmt__row { grid-template-columns: minmax(0, 1fr) 8.5rem minmax(0, 1fr) auto; gap: 6px 16px; }
+    .tmt__row { grid-template-columns: 7.5rem minmax(0, 1fr) minmax(0, 1fr) auto; gap: 6px 16px; }
     .tmt__city { font-size: 20px; }
   }
-  /* Mobile: stacked CITY → DATE → VENUE, ticket icon button on the right */
+  /* Mobile: DATE column on the left, CITY over VENUE, ticket icon button on the right */
   @media (max-width: 600px) {
     .tmt__title { margin-bottom: 18px; }
-    .tmt__stats { gap: 10px; margin-bottom: 20px; }
-    .tmt__stat { padding: 14px 14px 12px; }
-    .tmt__stat-value { font-size: 30px; }
-    .tmt__stat-value--sm { font-size: 20px; }
-    .tmt__blocks { gap: 16px; }
+    .tmt__blocks { gap: 0; }
     .tmt__block { padding: 24px 18px 18px; border-radius: 8px; }
-    .tmt__name { font-size: 26px; letter-spacing: 1px; }
+    .tmt__name { font-size: 26px; letter-spacing: -0.01em; }
     .tmt__guests { font-size: 16px; }
     .tmt .tmt__range { font-size: 12px; }
     .tmt__row {
-      grid-template-columns: minmax(0, 1fr) auto;
-      grid-template-areas: "city btn" "date btn" "venue btn";
-      gap: 3px 14px; padding: 14px 0;
+      grid-template-columns: 4.4rem minmax(0, 1fr) auto;
+      grid-template-areas: "date city btn" "date venue btn";
+      gap: 3px 12px; padding: 14px 0;
     }
     .tmt__city { grid-area: city; font-size: 21px; }
-    .tmt__date { grid-area: date; font-size: 13px; }
+    .tmt__date { grid-area: date; font-size: 13px; line-height: 1.3; }
+    .tmt .tmt__dow { display: block; margin: 0; }
     .tmt .tmt__venue { grid-area: venue; font-size: 12px; white-space: normal; }
     .tmt__btn { grid-area: btn; min-width: 0; width: 48px; height: 48px; padding: 0; }
     .tmt__btn-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
@@ -157,23 +139,6 @@
 
 <div class="tmt" data-artist="TobyMac" data-app-id="js_www" data-bit-url="https://www.bandsintown.com/a/817-tobymac">
   <h2 class="tmt__title">Tour Dates</h2>
-  <div class="tmt__stats">
-    <a class="tmt__stat" href="https://www.bandsintown.com/a/817-tobymac" target="_blank" rel="noopener">
-      <span class="tmt__stat-label"><img src="https://icons.boerhaus.com/bandsintown.svg" alt="" width="16" height="16" />Bandsintown followers</span>
-      <span class="tmt__stat-value" data-tmt="followers">—</span>
-      <span class="tmt__stat-note">Track TobyMac</span>
-    </a>
-    <div class="tmt__stat">
-      <span class="tmt__stat-label"><span class="tmt__ico" aria-hidden="true"></span>Concerts on sale</span>
-      <span class="tmt__stat-value" data-tmt="count">—</span>
-      <span class="tmt__stat-note" data-tmt="tours">&nbsp;</span>
-    </div>
-    <div class="tmt__stat tmt__stat--next">
-      <span class="tmt__stat-label">Next show</span>
-      <span class="tmt__stat-value tmt__stat-value--sm" data-tmt="next-city">—</span>
-      <span class="tmt__stat-note" data-tmt="next-date">&nbsp;</span>
-    </div>
-  </div>
   <div class="tmt__blocks" data-tmt="list" aria-live="polite">
     <p class="tmt__status">Loading dates…</p>
   </div>
@@ -192,7 +157,7 @@
   var TMT_RULES = [
     { id: "fall",     match: { description: /three names\.?\s*one tour|chris\s+tomlin.*third\s+day/i },
       kicker: "Three names. One tour.", label: "Fall Tour {year}", guests: "with Chris Tomlin & Third Day",
-      theme: "charcoal", limit: null },
+      theme: "plain", limit: null },
     { id: "hitsdeep", match: { title: /hit'?s\s*deep/i, description: /hits\s*deep\s*tour/i },
       kicker: "TobyMac’s", label: "Hits Deep {year}", guests: "with Jeremy Camp, Seph Schlueter & Katy Nichole",
       theme: "coral", limit: 8 }
@@ -221,7 +186,6 @@
   function parts(iso) { var m = String(iso || "").match(/(\d{4})-(\d{2})-(\d{2})/); return m ? { y: +m[1], m: +m[2], d: +m[3] } : null; }
   function md(p) { return p ? MONTHS[p.m - 1] + " " + p.d : ""; }
   function dow(p) { return p ? DOW[new Date(Date.UTC(p.y, p.m - 1, p.d)).getUTCDay()] : ""; }
-  function fmtCount(n) { n = Number(n) || 0; if (n >= 1e6) return (Math.round(n / 1e5) / 10).toFixed(1).replace(/\.0$/, "") + "M"; if (n >= 1e3) return Math.round(n / 1e3) + "K"; return String(n); }
   function city(v) { v = v || {}; if (v.city && v.region) return v.city + ", " + v.region; if (v.city && v.country) return v.city + ", " + v.country; return v.location || v.city || ""; }
 
   function venueName(ev) {
@@ -267,8 +231,8 @@
       ? '<a class="tmt__btn' + (sold ? " tmt__btn--off" : "") + '" href="' + esc(tk.url) + '" target="_blank" rel="noopener" aria-label="' + label + " — " + esc(city(ev.venue)) + " " + md(p) + '"><span class="tmt__ico" aria-hidden="true"></span><span class="tmt__btn-label">' + label + "</span></a>"
       : "<span></span>";
     return '<div class="tmt__row">' +
-      '<p class="tmt__city">' + esc(city(ev.venue)) + "</p>" +
       '<p class="tmt__date"><span class="tmt__dow">' + dow(p) + "</span>" + md(p) + "</p>" +
+      '<p class="tmt__city">' + esc(city(ev.venue)) + "</p>" +
       '<p class="tmt__venue">' + esc(v || "—") + "</p>" + btn + "</div>";
   }
 
@@ -302,17 +266,9 @@
       }
       listEl.appendChild(sec);
     });
-    $("count").textContent = String(events.length);
-    $("tours").textContent = groups.length + (groups.length === 1 ? " tour block" : " tour blocks");
-    var p0 = parts(events[0].datetime);
-    $("next-city").textContent = city(events[0].venue);
-    $("next-date").textContent = dow(p0) + " " + md(p0) + (venueName(events[0]) ? " · " + venueName(events[0]) : "");
   }
 
   var base = "https://rest.bandsintown.com/artists/" + encodeURIComponent(artist), q = "?app_id=" + encodeURIComponent(appId);
-  fetch(base + q).then(function (r) { return r.ok ? r.json() : null; }).then(function (a) {
-    if (a && a.tracker_count != null) $("followers").textContent = fmtCount(a.tracker_count);
-  }).catch(function () {});
   fetch(base + "/events" + q).then(function (r) { if (!r.ok) throw new Error("events " + r.status); return r.json(); })
     .then(function (ev) { ev = Array.isArray(ev) ? ev.slice() : []; ev.sort(function (a, b) { return String(a.datetime).localeCompare(String(b.datetime)); }); render(ev); })
     .catch(function (e) { listEl.innerHTML = '<p class="tmt__status tmt__status--err">Couldn’t load tour dates. Try again in a moment.</p>'; if (window.console) console.warn("tmt", e); });
