@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Steve Taylor — paste-ready tour snippet</title>
+  <meta name="robots" content="noindex,nofollow" />
+</head>
+<body>
+<!--
+  PASTE-READY: Custom Liquid / HTML section for stevetaylorpresents.com
+
+  Differences vs studio graphic page:
+  - Live site is Shopify Horizon; body font is Inter (not Bebas Neue).
+  - Live BIT widget: bg #0E0E0E, text cream #FCF7CB, separator #FA0642,
+    artist id_68603, app_id 336bf223ea6c9076cf202550ec04793a.
+  - This snippet keeps the GRAPHIC layout (Bebas + crimson #E0284F + white cities
+    + white tickets.svg stacked icons via CSS mask) on a near-black band.
+  - Header billing (fall 2026, Russ Taff out): THE [ALMOST] FAREWELL TOUR /
+    STEVE TAYLOR & SOME BAND / with special guest [THE CHOIR] (city-style white brackets).
+  - Lancaster Nov 1: TWO separate iTickets (same billing both shows) —
+    2 PM https://www.itickets.com/events/486478
+    7 PM https://www.itickets.com/events/486163
+  - Row gap ~2.9× Bebas cap (from marketing graphic); note ~0.85× under Lancaster.
+  - Swap --st-crimson to #FA0642 if you want exact BIT separator red.
+-->
+<!-- asset-bust:steve-snippet-e -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
+
+<style>
+  .st-tour {
+    --st-bg: #0a0d10;
+    --st-crimson: #E0284F;
+    --st-white: #ffffff;
+    --st-line: clamp(22px, 4.6vw, 42px);
+    font-family: "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+    background: var(--st-bg);
+    color: var(--st-crimson);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 40px 16px 56px;
+    text-align: center;
+    font-size: var(--st-line);
+  }
+  .st-tour * { box-sizing: border-box; }
+  .st-tour__header {
+    margin: 0 auto 2.75em;
+    max-width: 920px;
+    letter-spacing: 0.04em;
+  }
+  .st-tour__tour-name {
+    margin: 0;
+    font-size: 1.38em;
+    line-height: 1.05;
+    text-transform: uppercase;
+    color: var(--st-white);
+  }
+  .st-tour__headliners {
+    margin: 0.42em 0 0;
+    font-size: 1.02em;
+    line-height: 1.05;
+    text-transform: uppercase;
+    color: var(--st-white);
+  }
+  .st-tour__guest {
+    margin: 0.48em 0 0;
+    font-size: 0.52em;
+    line-height: 1.15;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--st-crimson);
+  }
+  .st-tour__guest .st-tour__city {
+    font-size: 1em;
+    letter-spacing: inherit;
+  }
+  .st-tour__list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.9em;
+  }
+  .st-tour__row {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    transition: opacity 0.15s ease;
+    max-width: 100%;
+    font-size: 1em;
+  }
+  a.st-tour__row:hover { opacity: 0.78; }
+  .st-tour__row--split {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85em;
+  }
+  .st-tour__line {
+    font-size: 1em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--st-crimson);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    column-gap: 0.28em;
+    row-gap: 0.2em;
+    width: 100%;
+  }
+  .st-tour__city { color: var(--st-white); }
+  .st-tour__ticket {
+    display: inline-block;
+    height: 0.72em;
+    width: calc(0.72em * 285.25 / 282.23);
+    background-color: #fff;
+    -webkit-mask-image: url("https://icons.boerhaus.com/tickets.svg");
+    mask-image: url("https://icons.boerhaus.com/tickets.svg");
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    flex-shrink: 0;
+    margin-left: 0.12em;
+    vertical-align: -0.08em;
+  }
+  .st-tour__tix {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--st-white);
+    margin: 0 0.08em;
+    vertical-align: middle;
+  }
+  .st-tour__tix:hover { opacity: 0.75; }
+  .st-tour__tix .st-tour__ticket { margin-left: 0; }
+  .st-tour__note {
+    display: block;
+    width: 100%;
+    margin: 0;
+    font-size: 0.78em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--st-crimson);
+    transform: skewX(-6deg);
+    text-align: center;
+    line-height: 1.2;
+  }
+  .st-tour__note .st-tour__ticket {
+    height: 0.95em;
+    width: calc(0.95em * 285.25 / 282.23);
+    margin-left: 0.06em;
+    vertical-align: -0.12em;
+  }
+  @media (max-width: 560px) {
+    .st-tour { --st-line: clamp(18px, 5.2vw, 26px); }
+    .st-tour__list { gap: 2.6em; }
+    .st-tour__header { margin-bottom: 2.2em; }
+  }
+</style>
+
+<div class="st-tour" data-artist-id="68603" data-app-id="336bf223ea6c9076cf202550ec04793a">
+  <header class="st-tour__header">
+    <p class="st-tour__tour-name">THE [ALMOST] FAREWELL TOUR</p>
+    <p class="st-tour__headliners">STEVE TAYLOR &amp; SOME BAND</p>
+    <p class="st-tour__guest">with special guest <span class="st-tour__city">[THE CHOIR]</span></p>
+  </header>
+  <div class="st-tour__list" data-bit="list">
+    <p style="font-family:Inter,sans-serif;font-size:13px;color:#FCF7CB;opacity:.6">Loading dates…</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  var root = document.currentScript && document.currentScript.previousElementSibling;
+  if (!root || !root.classList.contains("st-tour")) {
+    root = document.querySelector(".st-tour[data-artist-id]");
+  }
+  if (!root) return;
+  var listEl = root.querySelector('[data-bit="list"]');
+  var artistId = root.getAttribute("data-artist-id") || "68603";
+  var appId = root.getAttribute("data-app-id") || "336bf223ea6c9076cf202550ec04793a";
+  var venueOverrides = {
+    "1039128792": { venue: "Pantages Theatre", cityDisplay: "MINNEAPOLIS" },
+    "108774362": { venue: "Scott Recital Hall", cityDisplay: "OMAHA" },
+    "108774367": { venue: "Folly Theatre", cityDisplay: "KANSAS CITY" },
+    "108774370": { venue: "Sheldon Theatre", cityDisplay: "ST. LOUIS" },
+    "108774392": { venue: "Southern Theatre", cityDisplay: "COLUMBUS" },
+    "108774385": {
+      venue: "Junction Center",
+      cityDisplay: "LANCASTER, PA",
+      tickets: [
+        { label: "2 PM", url: "https://www.itickets.com/events/486478" },
+        { label: "7 PM", url: "https://www.itickets.com/events/486163" }
+      ]
+    }
+  };
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+  function fmtDate(iso) {
+    var m = String(iso || "").match(/(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return "";
+    var months = ["JAN.","FEB.","MAR.","APR.","MAY","JUN.","JUL.","AUG.","SEP.","OCT.","NOV.","DEC."];
+    return months[Number(m[2]) - 1] + " " + Number(m[3]);
+  }
+  function ticketUrl(ev) {
+    var offers = ev.offers || [];
+    for (var i = 0; i < offers.length; i++) if (offers[i].type === "Tickets" && offers[i].url) return offers[i].url;
+    for (var j = 0; j < offers.length; j++) if (offers[j].type !== "VIP" && offers[j].url) return offers[j].url;
+    return ev.url || "#";
+  }
+  function icon() { return '<span class="st-tour__ticket" aria-hidden="true"></span>'; }
+  fetch("https://rest.bandsintown.com/artists/" + encodeURIComponent("id_" + artistId) + "/events?app_id=" + encodeURIComponent(appId))
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (events) {
+      listEl.innerHTML = "";
+      (events || []).forEach(function (ev) {
+        var ov = venueOverrides[String(ev.id)] || {};
+        var venue = ev.venue || {};
+        var city = ov.cityDisplay || String(venue.city || "").toUpperCase();
+        var building = (ov.venue || venue.name || "").toUpperCase();
+        if (/STEVE\s+TAYLOR|SOME\s+BAND|THE\s+CHOIR|\bTOUR\b/.test(building) && ov.venue) building = ov.venue.toUpperCase();
+        else if (/STEVE\s+TAYLOR|SOME\s+BAND|THE\s+CHOIR|\bTOUR\b/.test(building)) building = "—";
+        var core = esc(fmtDate(ev.datetime)) + ' <span class="st-tour__city">[' + esc(city) + ']</span> ' + esc(building);
+        if (ov.tickets && ov.tickets.length > 1) {
+          var wrap = document.createElement("div");
+          wrap.className = "st-tour__row st-tour__row--split";
+          var noteParts = ov.tickets.map(function (t) {
+            return esc(t.label) +
+              ' <a class="st-tour__tix" href="' + esc(t.url) + '" target="_blank" rel="noopener" aria-label="Tickets ' + esc(t.label) + '">' +
+              icon() + "</a>";
+          });
+          wrap.innerHTML = '<p class="st-tour__line">' + core + "</p>" +
+            '<span class="st-tour__note">TWO SHOWS — ' + noteParts.join(" AND ") + "</span>";
+          listEl.appendChild(wrap);
+        } else {
+          var a = document.createElement("a");
+          a.className = "st-tour__row";
+          a.href = ticketUrl(ev);
+          a.target = "_blank";
+          a.rel = "noopener";
+          a.innerHTML = '<p class="st-tour__line">' + core + " " + icon() + "</p>";
+          listEl.appendChild(a);
+        }
+      });
+    })
+    .catch(function () {
+      listEl.innerHTML = '<p style="font-family:Inter,sans-serif;color:#FCF7CB">Couldn’t load dates.</p>';
+    });
+})();
+</script>
+
+</body>
+</html>
