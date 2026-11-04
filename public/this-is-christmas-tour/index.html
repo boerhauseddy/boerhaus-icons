@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tasha Layton — Tour dates · studio.boerhaus.com</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="description" content="Boerhaus studio prototype: Tasha Layton This Is Christmas tour dates, live from Bandsintown, type matched to poster date card." />
+  <!-- version: this-is-christmas-tour-2026-10-08f -->
+  <!-- Adobe Fonts: Bebas Neue Rounded (kit dlh4vzp) — weight 400 only -->
+  <!-- Type metrics: date-card-example.png DATE cap 89 / CITY 68 (0.764) / VENUE 37.5 (0.421);
+       ink gaps 18px (0.202·cap) / 15.5px (0.174·cap); ls matched by ink span on kit. -->
+  <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+  <link rel="stylesheet" href="https://use.typekit.net/dlh4vzp.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: #5C1C1D; padding: 24px 16px 64px; }
+    .preview-note {
+      font-family: system-ui, sans-serif; font-size: 11px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(255,255,255,0.45); text-align: center;
+      margin: 0 auto 8px; max-width: 720px; line-height: 1.45;
+    }
+
+    .tic {
+      --tic-maroon: #5C1C1D;
+      --tic-white: #ffffff;
+      --tic-muted: rgba(255, 255, 255, 0.6);
+      /* Date line em-size; cap height ≈ 0.71× this for Bebas Neue Rounded */
+      --tic-line: clamp(28px, 5.6vw, 48px);
+      --tic-font: "bebas-neue-rounded", "Bebas Neue Rounded", "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+    /* ── Type metrics measured from date-card-example.png (PIL ink boxes) ──
+       Cap heights: DATE 89px · CITY 68px · VENUE 37.5px  → 1 : 0.764 : 0.421
+       Ink gaps:    date→city 18px (0.202·dateCap) · city→venue 15.5px (0.174·dateCap)
+       Tracking:    fitted to reference ink spans (473 / 479 / 293px) on kit dlh4vzp
+       Entry gap:   stacked-card rhythm from card margins (49+70px) ≈ 1.34·dateCap ink */
+    --tic-city-size: 0.764em;
+    --tic-venue-size: 0.421em;
+    --tic-ls-date: 0.008em;
+    --tic-ls-city: 0.003em;
+    --tic-ls-venue: 0.003em;
+    --tic-gap-city: -0.145em;   /* in city em, line-height 1 → 18px ink @ 89 cap */
+    --tic-gap-venue: -0.109em;  /* in venue em → 15.5px ink */
+    --tic-entry-gap: 0.748em;   /* date em; ink ≈ 1.34·cap between entries */
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 20px 48px;
+      text-align: center;
+      color: var(--tic-white);
+      background: var(--tic-maroon);
+      font-family: var(--tic-font);
+      font-size: var(--tic-line);
+      font-weight: 400;
+      font-synthesis: none;
+      -webkit-font-smoothing: antialiased;
+    }
+    .tic * { box-sizing: border-box; }
+    .tic :where(p) { margin: 0; font-weight: 400; font-synthesis: none; }
+    .tic__header { margin: 0 auto 1.6em; }
+    .tic__artist {
+      font-size: 1.15em; line-height: 1; letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .tic__kicker {
+      margin-top: 0.28em; font-size: 0.48em; line-height: 1.1; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--tic-muted);
+    }
+    .tic__guests {
+      margin-top: 0.5em; font-size: 0.48em; line-height: 1.2; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .tic__list {
+      display: flex; flex-direction: column; align-items: center;
+      gap: var(--tic-entry-gap);
+    }
+    .tic__row {
+      display: flex; flex-direction: column; align-items: center;
+      max-width: 100%; padding: 0 8px; color: inherit; text-decoration: none;
+      transition: opacity 0.15s ease;
+    }
+    /* No venue line: city is last → compensate its larger descent so entry ink gap stays ≈ 1.34·cap */
+    .tic__row--no-venue { margin-bottom: -0.052em; }
+    a.tic__row:hover { opacity: 0.78; }
+    .tic__date, .tic__city, .tic__venue {
+      position: relative; margin: 0; line-height: 1; text-transform: uppercase;
+      font-weight: 400; font-synthesis: none; white-space: nowrap;
+    }
+    .tic__date { font-size: 1em; letter-spacing: var(--tic-ls-date); }
+    .tic__city { margin-top: var(--tic-gap-city); font-size: var(--tic-city-size); letter-spacing: var(--tic-ls-city); }
+    .tic__venue { margin-top: var(--tic-gap-venue); font-size: var(--tic-venue-size); letter-spacing: var(--tic-ls-venue); }
+    /* Ticket icon hangs outside the text box so type stays centred like the reference */
+    .tic__ticket {
+      position: absolute; left: 100%; top: 50%;
+      margin-left: 0.35em; transform: translateY(-58%);
+      display: inline-block;
+      height: 0.62em; width: calc(0.62em * 285.25 / 282.23);
+      background-color: #fff;
+      -webkit-mask: var(--tic-ticket-mask) center / contain no-repeat;
+      mask: var(--tic-ticket-mask) center / contain no-repeat;
+    }
+    .tic__venue .tic__ticket { height: 0.9em; width: calc(0.9em * 285.25 / 282.23); }
+    @media (max-width: 420px) {
+      .tic__city, .tic__venue { white-space: normal; }
+    }
+    .tic__status {
+      font-size: 0.7em; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tic-muted);
+    }
+    .tic__source {
+      margin: 2.2em 0 0; font-family: system-ui, sans-serif; font-size: 10px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.4);
+    }
+    @media (max-width: 560px) {
+      .tic { --tic-line: clamp(26px, 8vw, 34px); padding: 28px 12px 36px; }
+    }
+
+    .tic { --tic-ticket-mask: url("/tickets.svg"); }
+  </style>
+</head>
+<body>
+  <p class="preview-note">studio.boerhaus.com/this-is-christmas-tour · Tasha Layton · This Is Christmas · live BIT only · prototype (non-billable)</p>
+<div class="tic"
+  data-artist-slug="Tasha Layton"
+  data-artist-id="1451791"
+  data-app-id="js_www"
+  data-tour-match="this is christmas">
+  <header class="tic__header">
+    <p class="tic__artist">Tasha Layton</p>
+    <p class="tic__kicker">Tour dates</p>
+    <p class="tic__guests" data-bit="guests" hidden></p>
+  </header>
+  <div class="tic__list" data-bit="list" aria-live="polite">
+    <p class="tic__status">Loading dates…</p>
+  </div>
+  <p class="tic__source">Dates via Bandsintown</p>
+</div>
+<script>
+(function () {
+  var roots = document.querySelectorAll(".tic[data-artist-slug]");
+  Array.prototype.forEach.call(roots, function (root) {
+    if (root.getAttribute("data-tic-init")) return;
+    root.setAttribute("data-tic-init", "1");
+    var listEl = root.querySelector('[data-bit="list"]');
+    var guestsEl = root.querySelector('[data-bit="guests"]');
+    var slug = root.getAttribute("data-artist-slug") || "Tasha Layton";
+    var artistId = root.getAttribute("data-artist-id") || "1451791";
+    var appId = root.getAttribute("data-app-id") || "js_www";
+    var match = (root.getAttribute("data-tour-match") || "this is christmas").toLowerCase();
+
+    function esc(s) {
+      return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+    }
+    function clean(s) { return String(s || "").replace(/\s+/g, " ").trim(); }
+    function fmtDate(iso) {
+      var m = String(iso || "").match(/(\d{4})-(\d{2})-(\d{2})/);
+      if (!m) return "";
+      var months = ["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"];
+      return months[Number(m[2]) - 1] + " " + Number(m[3]);
+    }
+    function ticketUrl(ev) {
+      var offers = ev.offers || [];
+      for (var i = 0; i < offers.length; i++) if (offers[i].type === "Tickets" && offers[i].url) return offers[i].url;
+      for (var j = 0; j < offers.length; j++) if (offers[j].type !== "VIP" && offers[j].url) return offers[j].url;
+      return ev.url || "";
+    }
+    function isTour(ev) {
+      var blob = [ev.title, ev.description, ev.venue && ev.venue.name].map(clean).join(" ").toLowerCase();
+      return blob.indexOf(match) !== -1;
+    }
+    function venueName(ev) {
+      var v = clean(ev.venue && ev.venue.name);
+      if (!v || v.toLowerCase() === clean(ev.title).toLowerCase()) return "";
+      return v;
+    }
+    function cityLine(ev) {
+      var v = ev.venue || {};
+      var city = clean(v.city), region = clean(v.region);
+      return (city && region ? city + ", " + region : clean(v.location) || city || region).toUpperCase();
+    }
+    function empty() { listEl.innerHTML = '<p class="tic__status">Dates coming soon</p>'; }
+    function renderGuests(events) {
+      if (!guestsEl) return;
+      var seen = {}, names = [];
+      seen[slug.toLowerCase()] = 1;
+      events.forEach(function (ev) {
+        (ev.lineup || []).forEach(function (n) {
+          n = clean(n);
+          if (n && !seen[n.toLowerCase()]) { seen[n.toLowerCase()] = 1; names.push(n); }
+        });
+      });
+      if (names.length) {
+        guestsEl.textContent = "with " + names.join(" · ");
+        guestsEl.hidden = false;
+      }
+    }
+    function render(events) {
+      if (!events.length) return empty();
+      listEl.innerHTML = "";
+      events.forEach(function (ev) {
+        var href = ticketUrl(ev);
+        var venue = venueName(ev);
+        var icon = '<span class="tic__ticket" aria-hidden="true"></span>';
+        var row = document.createElement(href ? "a" : "div");
+        row.className = "tic__row" + (venue ? "" : " tic__row--no-venue");
+        if (href) { row.href = href; row.target = "_blank"; row.rel = "noopener"; }
+        row.innerHTML =
+          '<p class="tic__date">' + esc(fmtDate(ev.datetime || ev.starts_at)) + "</p>" +
+          '<p class="tic__city">' + esc(cityLine(ev)) + (!venue && href ? " " + icon : "") + "</p>" +
+          (venue ? '<p class="tic__venue">' + esc(venue.toUpperCase()) + (href ? " " + icon : "") + "</p>" : "");
+        listEl.appendChild(row);
+      });
+    }
+    /* BIT V4 events (same endpoint the official BIT widget uses) — carries real venue.name;
+       the unversioned /artists/ endpoint returns the event title in venue.name. CORS: * */
+    fetch("https://rest.bandsintown.com/V4/artists/id_" + encodeURIComponent(artistId) + "/events/?app_id=" + encodeURIComponent(appId))
+      .then(function (res) {
+        if (!res.ok) throw new Error("events " + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        var events = (Array.isArray(data) ? data : []).filter(isTour).sort(function (a, b) {
+          return String(a.datetime).localeCompare(String(b.datetime));
+        });
+        renderGuests(events);
+        render(events);
+      })
+      .catch(function (err) {
+        console.warn("tic-tour", err);
+        empty();
+      });
+  });
+})();
+</script>
+</body>
+</html>

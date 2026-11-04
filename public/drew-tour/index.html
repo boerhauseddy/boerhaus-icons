@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Drew Baldridge — Tour · studio.boerhaus.com</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="description" content="Boerhaus studio preview: custom Bandsintown tour embed for Drew Baldridge (Farm Faith Family Tour)." />
+  <!-- version: drew-tour-2026-10-03h -->
+  <!-- asset-bust:h-drew -->
+  <style>
+    @font-face {
+      font-family: "Hiram";
+      src: url("hiram.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    /*
+      BACKGROUND SWAP POINT — Eddy wants to consider bg color / images later.
+      Change body.background (and/or add background-image) here.
+      Live site primary page cream: #F5EDD8; tour-page dark scheme: #242222.
+    */
+    body {
+      margin: 0;
+      padding: 28px 16px 64px;
+      background: #F5EDD8;
+      color: #2B2525;
+      font-family: "Hiram", Georgia, "Times New Roman", serif;
+      min-height: 100vh;
+    }
+    .preview-note {
+      font-family: "Hiram", Georgia, serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #687363;
+      margin: 0 auto 8px;
+      max-width: 560px;
+      padding: 0 4px;
+      text-align: center;
+    }
+    .preview-sub {
+      font-family: "Hiram", Georgia, serif;
+      font-size: 14px;
+      line-height: 0.95; /* 1.45*0.5=0.725 clipped multi-line; floored */
+      color: #2B2525;
+      opacity: 0.78;
+      margin: 0 auto 24px;
+      max-width: 560px;
+      padding: 0 4px;
+      text-align: center;
+    }
+    .preview-sub strong { color: #2B2525; font-weight: 400; opacity: 1; }
+  </style>
+</head>
+<body>
+  <p class="preview-note">studio.boerhaus.com/drew-tour · Drew Baldridge · live BIT · unlisted demo</p>
+  <p class="preview-sub">Centered stacked dates (Hiram). Tour sections kept. Live BIT artist id <strong>2413621</strong>.</p>
+
+<!-- Boerhaus / Drew Baldridge — Tour (LIVE)
+     Centered stack: date · city · venue · green ticket icon
+     Grouped: Fall dates · With Luke Bryan · Farm Faith Family Tour
+     Venue overrides when BIT stores tour title in venue.name
+     public app_id js_www only
+     version: drew-tour-2026-10-03h -->
+<style>
+  .ta-tour {
+    --ta-ink: #2B2525;
+    --ta-muted: #687363;
+    --ta-line: #e8e4dc;
+    --ta-paper: #ffffff;
+    --ta-accent: #687363;
+    --ta-gold: #D2C5A3;
+    --ta-cream: #F5EDD8;
+    --ta-radius: 12px;
+    font-family: "Hiram", Georgia, "Times New Roman", serif;
+    color: var(--ta-ink);
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 8px 0 32px;
+  }
+  .ta-tour * { box-sizing: border-box; }
+  .ta-tour a { color: inherit; text-decoration: none; }
+  .ta-tour__label {
+    font-family: "Hiram", Georgia, serif;
+    font-size: 42px;
+    font-weight: 400;
+    /* 1.05*0.5=0.525 clips display caps; floored to 0.85 */
+    line-height: 0.85;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--ta-ink);
+    margin: 0 0 18px;
+    padding: 0 4px;
+  }
+  .ta-tour__list {
+    margin: 0;
+    padding: 8px 20px 20px;
+    background: var(--ta-paper);
+    border-radius: var(--ta-radius);
+  }
+  .ta-tour__section {
+    margin: 0;
+    padding: 22px 0 8px;
+    text-align: center;
+  }
+  .ta-tour__section:first-child {
+    padding-top: 12px;
+  }
+  /* Distinct section header band (cream tint + left rule) vs date stack */
+  .ta-tour__section-head {
+    background: #687363;
+    border-radius: 8px;
+    padding: 12px 16px 10px;
+    margin: 0 0 4px;
+    text-align: center;
+  }
+  .ta-tour__tour-name {
+    font-family: "Hiram", Georgia, serif;
+    font-weight: 400;
+    font-size: 22px;
+    /* 1.15*0.5=0.575 clips; floored to 0.85 */
+    line-height: 0.85;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+    color: #fff;
+    text-align: center;
+  }
+  .ta-tour__tour-guests {
+    font-family: "Hiram", Georgia, serif;
+    font-weight: 400;
+    font-size: 14px;
+    /* 1.2*0.5=0.6 clips; floored to 0.85 */
+    line-height: 0.85;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 4px;
+    color: #fff;
+    opacity: 1;
+    text-align: center;
+  }
+  .ta-tour__tour-meta {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+    margin: 0;
+    text-align: center;
+    /* no prior line-height; keep tight readable */
+    line-height: 0.85;
+  }
+  .ta-tour__event {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 22px 8px 10px;
+    border-bottom: 1px solid var(--ta-line);
+  }
+  .ta-tour__section .ta-tour__event:last-child { border-bottom: none; }
+  .ta-tour__date {
+    font-family: "Hiram", Georgia, serif;
+    font-size: 15.6px;
+    font-weight: 400;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--ta-ink);
+    margin: 0 0 8px;
+    /* 1.2*0.5=0.6 clips; floored to 0.85 */
+    line-height: 0.85;
+  }
+  .ta-tour__city {
+    font-family: "Hiram", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(22.4px, 4.8vw, 28.8px);
+    /* 0.98*0.5=0.49 clips; floored to 0.85 */
+    line-height: 0.85;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--ta-ink);
+    margin: 0 0 8px;
+    max-width: 100%;
+  }
+  .ta-tour__venue-row {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0;
+    max-width: 100%;
+  }
+  .ta-tour__venue {
+    font-family: "Hiram", Georgia, serif;
+    font-size: 14px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ta-muted);
+    margin: 0;
+    /* 1.25*0.5=0.625 clips; floored to 0.85 */
+    line-height: 0.85;
+    max-width: 100%;
+  }
+  .ta-tour__venue--blank { display: none; }
+  .ta-tour__buy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 33px;
+    height: 33px;
+    text-decoration: none;
+  }
+  .ta-tour__buy:hover { opacity: 0.75; }
+  .ta-tour__ctas {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .ta-tour__ticket,
+  .ta-tour__vip {
+    width: 33px; height: 33px; display: block;
+    background-color: #687363;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+  .ta-tour__ticket {
+    -webkit-mask-image: url("https://cdn.jsdelivr.net/gh/boerhauseddy/boerhaus-icons@main/public/tickets.svg");
+    mask-image: url("https://cdn.jsdelivr.net/gh/boerhauseddy/boerhaus-icons@main/public/tickets.svg");
+  }
+  .ta-tour__vip {
+    -webkit-mask-image: url("/vip.svg");
+    mask-image: url("/vip.svg");
+  }
+  .ta-tour__more {
+    display: block;
+    margin: 18px 4px 0;
+    padding: 12px 0 0;
+    border-top: 1px solid var(--ta-line);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-align: center;
+  }
+  .ta-tour__more:hover { color: var(--ta-accent); }
+  .ta-tour__status {
+    font-size: 11px; color: var(--ta-muted);
+    padding: 10px 4px; margin: 0;
+    text-align: center;
+  }
+  .ta-tour__status--err { color: #8a2f2f; }
+  .ta-tour__toggle {
+    display: block;
+    margin: 14px auto 0;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+    color: inherit;
+    text-align: center;
+  }
+  .ta-tour__toggle:hover { color: var(--ta-accent); }
+  @media (max-width: 560px) {
+    .ta-tour__label { font-size: 34px; }
+    .ta-tour__tour-name { font-size: 18px; }
+    .ta-tour__list { padding: 8px 12px 16px; }
+  }
+</style>
+
+<div class="ta-tour"
+  data-artist-slug="Drew Baldridge"
+  data-app-id="js_www"
+  data-limit="30"
+  data-bit-url="https://www.bandsintown.com/a/2413621-drew-baldridge"
+  data-overrides-url="drew-baldridge-venue-overrides.json">
+  <p class="ta-tour__label">ON TOUR</p>
+
+  <div class="ta-tour__list" data-bit="list">
+    <!-- static snapshot from live BIT (replaced by JS when API loads) -->
+    <section class="ta-tour__section">
+      <div class="ta-tour__section-head">
+      <h3 class="ta-tour__tour-name">Fall dates</h3>
+      </div>
+      <div class="ta-tour__event">
+        <p class="ta-tour__date">OCTOBER 4</p>
+        <p class="ta-tour__city">West Springfield, MA</p>
+        <div class="ta-tour__venue-row">
+          <p class="ta-tour__venue">The Big E 2026</p>
+          <div class="ta-tour__ctas">
+          <a class="ta-tour__buy" href="https://www.bandsintown.com/t/108467765?app_id=js_www&came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket" target="_blank" rel="noopener" aria-label="Tickets"><span class="ta-tour__ticket" aria-hidden="true"></span></a>
+          </div>
+        </div>
+      </div>
+      <div class="ta-tour__event">
+        <p class="ta-tour__date">OCTOBER 7</p>
+        <p class="ta-tour__city">Tulsa, OK</p>
+        <div class="ta-tour__venue-row">
+          <p class="ta-tour__venue">Expo Square</p>
+          <div class="ta-tour__ctas">
+          <a class="ta-tour__buy" href="https://www.bandsintown.com/e/1039683468?app_id=js_www&came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=event" target="_blank" rel="noopener" aria-label="Tickets"><span class="ta-tour__ticket" aria-hidden="true"></span></a>
+          </div>
+        </div>
+      </div>
+      <div class="ta-tour__event">
+        <p class="ta-tour__date">OCTOBER 17</p>
+        <p class="ta-tour__city">Mesquite, NV</p>
+        <div class="ta-tour__venue-row">
+          <p class="ta-tour__venue">I-15 Country and Rock Festival</p>
+          <div class="ta-tour__ctas">
+          <a class="ta-tour__buy" href="https://www.bandsintown.com/t/108628733?app_id=js_www&came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket" target="_blank" rel="noopener" aria-label="Tickets"><span class="ta-tour__ticket" aria-hidden="true"></span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="ta-tour__section">
+      <div class="ta-tour__section-head">
+      <h3 class="ta-tour__tour-name">With Luke Bryan</h3>
+      <p class="ta-tour__tour-guests">support dates</p>
+      </div>
+      <div class="ta-tour__event">
+        <p class="ta-tour__date">OCTOBER 10</p>
+        <p class="ta-tour__city">Auburn, WA</p>
+        <div class="ta-tour__venue-row">
+          <p class="ta-tour__venue">White River Amphitheatre</p>
+          <div class="ta-tour__ctas">
+          <a class="ta-tour__buy" href="https://www.bandsintown.com/t/1039898842?app_id=js_www&came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket" target="_blank" rel="noopener" aria-label="Tickets"><span class="ta-tour__ticket" aria-hidden="true"></span></a>
+          </div>
+        </div>
+      </div>
+      <div class="ta-tour__event">
+        <p class="ta-tour__date">OCTOBER 11</p>
+        <p class="ta-tour__city">Airway Heights, WA</p>
+        <div class="ta-tour__venue-row">
+          <p class="ta-tour__venue">BECU Live at Northern Quest</p>
+          <div class="ta-tour__ctas">
+          <a class="ta-tour__buy" href="https://www.bandsintown.com/t/108940804?app_id=js_www&came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket" target="_blank" rel="noopener" aria-label="Tickets"><span class="ta-tour__ticket" aria-hidden="true"></span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="ta-tour__section">
+      <div class="ta-tour__section-head">
+      <h3 class="ta-tour__tour-name">Farm Faith Family Tour</h3>
+      <p class="ta-tour__tour-guests">with Alyssa Flaherty &amp; Chase Wright</p>
+      <p class="ta-tour__tour-meta">Oct 18 – Nov 8</p>
+      </div>
+      <div class="ta-tour__event">
+        <p class="ta-tour__date">OCTOBER 18</p>
+        <p class="ta-tour__city">Newport Beach, CA</p>
+        <div class="ta-tour__venue-row">
+          <p class="ta-tour__venue">VEA Newport Beach</p>
+          <div class="ta-tour__ctas">
+          <a class="ta-tour__buy" href="https://www.bandsintown.com/t/108304091?app_id=js_www&came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket" target="_blank" rel="noopener" aria-label="Tickets"><span class="ta-tour__ticket" aria-hidden="true"></span></a>
+          <a class="ta-tour__buy" href="https://www.bandsintown.com/t/108304091?app_id=js_www&came_from=267&custom=true&utm_medium=api&utm_source=public_api&utm_campaign=ticket" target="_blank" rel="noopener" aria-label="VIP"><span class="ta-tour__vip" aria-hidden="true"></span></a>
+          </div>
+        </div>
+      </div>
+      <div class="ta-tour__event">
+        <p class="ta-tour__date">OCTOBER 22</p>
+        <p class="ta-tour__city">Columbus, OH</p>
+        <div class="ta-tour__venue-row">
+          <p class="ta-tour__venue">The Bluestone</p>
+          <div class="ta-tour__ctas">
+          <a class="ta-tour__buy" href="https://www.bandsintown.com/t/1040138138?app_id=js_www&came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket" target="_blank" rel="noopener" aria-label="Tickets"><span class="ta-tour__ticket" aria-hidden="true"></span></a>
+          </div>
+        </div>
+      </div>
+      <div class="ta-tour__event">
+        <p class="ta-tour__date">NOVEMBER 6</p>
+        <p class="ta-tour__city">Atlanta, GA</p>
+        <div class="ta-tour__venue-row">
+          <p class="ta-tour__venue">Vinyl</p>
+          <div class="ta-tour__ctas">
+          <a class="ta-tour__buy" href="https://www.bandsintown.com/t/1040135428?app_id=js_www&came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket" target="_blank" rel="noopener" aria-label="Tickets"><span class="ta-tour__ticket" aria-hidden="true"></span></a>
+          <a class="ta-tour__buy" href="https://www.bandsintown.com/t/1040135428?app_id=js_www&came_from=267&custom=true&utm_medium=api&utm_source=public_api&utm_campaign=ticket" target="_blank" rel="noopener" aria-label="VIP"><span class="ta-tour__vip" aria-hidden="true"></span></a>
+          </div>
+        </div>
+      </div>
+      <div class="ta-tour__event">
+        <p class="ta-tour__date">NOVEMBER 7</p>
+        <p class="ta-tour__city">Bristol, TN</p>
+        <div class="ta-tour__venue-row">
+          <p class="ta-tour__venue">Stockyard</p>
+          <div class="ta-tour__ctas">
+          <a class="ta-tour__buy" href="https://www.bandsintown.com/t/108857793?app_id=js_www&came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket" target="_blank" rel="noopener" aria-label="Tickets"><span class="ta-tour__ticket" aria-hidden="true"></span></a>
+          <a class="ta-tour__buy" href="https://www.bandsintown.com/t/108857793?app_id=js_www&came_from=267&custom=true&utm_medium=api&utm_source=public_api&utm_campaign=ticket" target="_blank" rel="noopener" aria-label="VIP"><span class="ta-tour__vip" aria-hidden="true"></span></a>
+          </div>
+        </div>
+      </div>
+      <div class="ta-tour__event">
+        <p class="ta-tour__date">NOVEMBER 8</p>
+        <p class="ta-tour__city">Birmingham, AL</p>
+        <div class="ta-tour__venue-row">
+          <p class="ta-tour__venue">WorkPlay Theatre</p>
+          <div class="ta-tour__ctas">
+          <a class="ta-tour__buy" href="https://www.bandsintown.com/t/108303961?app_id=js_www&came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket" target="_blank" rel="noopener" aria-label="Tickets"><span class="ta-tour__ticket" aria-hidden="true"></span></a>
+          <a class="ta-tour__buy" href="https://www.bandsintown.com/t/108303961?app_id=js_www&came_from=267&custom=true&utm_medium=api&utm_source=public_api&utm_campaign=ticket" target="_blank" rel="noopener" aria-label="VIP"><span class="ta-tour__vip" aria-hidden="true"></span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+(function () {
+  var root = document.currentScript && document.currentScript.previousElementSibling;
+  if (!root || !root.classList || !root.classList.contains("ta-tour")) {
+    root = document.querySelector('.ta-tour[data-artist-slug="Drew Baldridge"]');
+  }
+  if (!root) return;
+
+  var slug = root.getAttribute("data-artist-slug") || "Drew Baldridge";
+  var appId = root.getAttribute("data-app-id") || "js_www";
+  var limit = parseInt(root.getAttribute("data-limit") || "30", 10) || 30;
+  var bitUrl = root.getAttribute("data-bit-url") || "https://www.bandsintown.com/a/2413621-drew-baldridge";
+  var overridesUrl = root.getAttribute("data-overrides-url") || "";
+  var listEl = root.querySelector('[data-bit="list"]');
+  var expanded = false;
+
+  var inlineOverrides = {
+    "108304091": "VEA Newport Beach",
+    "1040138138": "The Bluestone",
+    "1040135428": "Vinyl",
+    "108857793": "Stockyard",
+    "108303961": "WorkPlay Theatre"
+  };
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function fmtDateFull(iso) {
+    var m = String(iso || "").match(/(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return "";
+    var months = ["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"];
+    return months[Number(m[2]) - 1] + " " + Number(m[3]);
+  }
+
+  function fmtDateShort(iso) {
+    var m = String(iso || "").match(/(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return "";
+    var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    return months[Number(m[2]) - 1] + " " + Number(m[3]);
+  }
+
+  function cityState(venue) {
+    if (!venue) return "";
+    var city = venue.city || "";
+    var region = venue.region || "";
+    if (city && region) return city + ", " + region;
+    return venue.location || city || region || "";
+  }
+
+  function ticketUrl(ev) {
+    var offers = ev.offers || [];
+    for (var i = 0; i < offers.length; i++) {
+      if (offers[i].type === "Tickets" && offers[i].url) return offers[i].url;
+    }
+    for (var j = 0; j < offers.length; j++) {
+      if (offers[j].type !== "VIP" && offers[j].url) return offers[j].url;
+    }
+    return ev.url || "#";
+  }
+
+  function vipUrl(ev) {
+    var offers = ev.offers || [];
+    for (var i = 0; i < offers.length; i++) {
+      if (offers[i].type === "VIP" && offers[i].url) return offers[i].url;
+    }
+    return "";
+  }
+
+  function lineupOthers(ev) {
+    var lineup = ev.lineup || [];
+    var out = [];
+    for (var i = 0; i < lineup.length; i++) {
+      var name = String(lineup[i] || "").trim();
+      if (!name) continue;
+      if (/^drew\s+baldridge$/i.test(name)) continue;
+      out.push(name);
+    }
+    return out;
+  }
+
+  function isFarmFaith(ev) {
+    var blob = (String(ev.title || "") + " " + String(ev.description || "") + " " + String((ev.venue || {}).name || "")).toLowerCase();
+    return /farm\s*,?\s*faith\s*,?\s*(?:&|and)?\s*family/.test(blob) || /farm faith family/.test(blob);
+  }
+
+  function isLukeBryanSupport(ev) {
+    if (isFarmFaith(ev)) return false;
+    var others = lineupOthers(ev);
+    for (var i = 0; i < others.length; i++) {
+      if (/luke\s+bryan/i.test(others[i])) return true;
+    }
+    return false;
+  }
+
+  function tourLabel(ev) {
+    if (isFarmFaith(ev)) return "Farm Faith Family Tour";
+    if (isLukeBryanSupport(ev)) return "With Luke Bryan";
+    return "Fall dates";
+  }
+
+  function sectionGuests(name, events) {
+    if (name === "Farm Faith Family Tour") {
+      var support = {};
+      (events || []).forEach(function (ev) {
+        lineupOthers(ev).forEach(function (n) { support[n] = true; });
+      });
+      var names = Object.keys(support);
+      if (!names.length) return "";
+      return "with " + names.join(" & ");
+    }
+    if (name === "With Luke Bryan") return "support dates";
+    return "";
+  }
+
+  function sectionMeta(name, events) {
+    if (name !== "Farm Faith Family Tour" || !events || !events.length) return "";
+    var first = fmtDateShort(events[0].datetime || events[0].starts_at);
+    var last = fmtDateShort(events[events.length - 1].datetime || events[events.length - 1].starts_at);
+    if (first && last && first !== last) return first + " – " + last;
+    return first || "";
+  }
+
+  function isTourish(name, title) {
+    var n = String(name || "").trim().toLowerCase();
+    var t = String(title || "").trim().toLowerCase();
+    if (!n) return true;
+    if (t && n === t) return true;
+    if (/farm\s*faith\s*family/.test(n)) return true;
+    if (/\btour\b/.test(n)) return true;
+    return false;
+  }
+
+  function buildingName(ev, overrides) {
+    var venue = ev.venue || {};
+    var vname = String(venue.name || "").trim();
+    var title = String(ev.title || "").trim();
+    var oid = String(ev.id || "");
+    if (overrides && overrides[oid]) return overrides[oid];
+    if (!isTourish(vname, title)) return vname;
+    if (title && vname === title) return vname;
+    return "";
+  }
+
+  var TOUR_ORDER = ["Fall dates", "With Luke Bryan", "Farm Faith Family Tour"];
+
+  function groupByTour(events) {
+    var groups = [];
+    var map = {};
+    (events || []).forEach(function (ev) {
+      var name = tourLabel(ev);
+      if (!map[name]) {
+        map[name] = { name: name, events: [] };
+        groups.push(map[name]);
+      }
+      map[name].events.push(ev);
+    });
+    groups.sort(function (a, b) {
+      var ia = TOUR_ORDER.indexOf(a.name);
+      var ib = TOUR_ORDER.indexOf(b.name);
+      if (ia < 0) ia = 99;
+      if (ib < 0) ib = 99;
+      if (ia !== ib) return ia - ib;
+      return 0;
+    });
+    return groups;
+  }
+
+  function render(events, overrides) {
+    var all = events || [];
+    var total = all.length;
+    listEl.innerHTML = "";
+    if (!total) {
+      listEl.innerHTML = '<p class="ta-tour__status">No upcoming dates right now.</p>';
+      return;
+    }
+
+    var shown = expanded ? all : all.slice(0, limit);
+    var groups = groupByTour(shown);
+    groups.forEach(function (group) {
+      var section = document.createElement("section");
+      section.className = "ta-tour__section";
+      var head = document.createElement("div");
+      head.className = "ta-tour__section-head";
+      var h = document.createElement("h3");
+      h.className = "ta-tour__tour-name";
+      h.textContent = group.name;
+      head.appendChild(h);
+      var guests = sectionGuests(group.name, group.events);
+      if (guests) {
+        var g = document.createElement("p");
+        g.className = "ta-tour__tour-guests";
+        g.textContent = guests;
+        head.appendChild(g);
+      }
+      var meta = sectionMeta(group.name, group.events);
+      if (meta) {
+        var m = document.createElement("p");
+        m.className = "ta-tour__tour-meta";
+        m.textContent = meta;
+        head.appendChild(m);
+      }
+      section.appendChild(head);
+
+      group.events.forEach(function (ev) {
+        var venue = ev.venue || {};
+        var building = buildingName(ev, overrides || {});
+        var iso = ev.datetime || ev.starts_at;
+        var dateLabel = fmtDateFull(iso);
+        var city = cityState(venue);
+        var venueLine = building || "";
+        var eventEl = document.createElement("div");
+        eventEl.className = "ta-tour__event";
+        var vip = vipUrl(ev);
+        var ctas =
+          '<div class="ta-tour__ctas">' +
+            '<a class="ta-tour__buy" href="' + esc(ticketUrl(ev)) + '" target="_blank" rel="noopener" aria-label="Tickets">' +
+              '<span class="ta-tour__ticket" aria-hidden="true"></span>' +
+            "</a>" +
+            (vip
+              ? '<a class="ta-tour__buy" href="' + esc(vip) + '" target="_blank" rel="noopener" aria-label="VIP">' +
+                  '<span class="ta-tour__vip" aria-hidden="true"></span>' +
+                "</a>"
+              : "") +
+          "</div>";
+        eventEl.innerHTML =
+          '<p class="ta-tour__date">' + esc(dateLabel) + "</p>" +
+          '<p class="ta-tour__city">' + esc(city) + "</p>" +
+          '<div class="ta-tour__venue-row">' +
+            '<p class="ta-tour__venue' + (venueLine ? "" : " ta-tour__venue--blank") + '">' + esc(venueLine) + "</p>" +
+            ctas +
+          "</div>";
+        section.appendChild(eventEl);
+      });
+      listEl.appendChild(section);
+    });
+
+    if (!expanded && total > limit) {
+      var more = document.createElement("button");
+      more.type = "button";
+      more.className = "ta-tour__toggle";
+      more.textContent = "See all " + total + " dates";
+      more.addEventListener("click", function () {
+        expanded = true;
+        render(all, overrides);
+      });
+      listEl.appendChild(more);
+    } else if (expanded && total > limit) {
+      var bit = document.createElement("a");
+      bit.className = "ta-tour__more";
+      bit.href = bitUrl;
+      bit.target = "_blank";
+      bit.rel = "noopener";
+      bit.textContent = "Open on Bandsintown";
+      listEl.appendChild(bit);
+    }
+  }
+
+  var base = "https://rest.bandsintown.com/artists/" + encodeURIComponent(slug);
+  var q = "?app_id=" + encodeURIComponent(appId);
+
+  var overridesPromise = overridesUrl
+    ? fetch(overridesUrl + (overridesUrl.indexOf("?") >= 0 ? "&" : "?") + "t=" + Date.now())
+        .then(function (r) { return r.ok ? r.json() : inlineOverrides; })
+        .then(function (data) {
+          var out = {};
+          for (var k in inlineOverrides) if (Object.prototype.hasOwnProperty.call(inlineOverrides, k)) out[k] = inlineOverrides[k];
+          if (data && typeof data === "object") {
+            for (var k2 in data) if (Object.prototype.hasOwnProperty.call(data, k2)) out[k2] = data[k2];
+          }
+          return out;
+        })
+        .catch(function () { return inlineOverrides; })
+    : Promise.resolve(inlineOverrides);
+
+  Promise.all([
+    fetch(base + "/events" + q).then(function (r) {
+      if (!r.ok) throw new Error("events " + r.status);
+      return r.json();
+    }),
+    overridesPromise
+  ]).then(function (pair) {
+    render(pair[0], pair[1]);
+  }).catch(function (err) {
+    if (listEl) {
+      listEl.innerHTML = '<p class="ta-tour__status ta-tour__status--err">Couldn’t load tour dates. Try again in a moment.</p>';
+    }
+    console.warn("ta-tour drew", err);
+  });
+})();
+</script>
+
+</body>
+</html>

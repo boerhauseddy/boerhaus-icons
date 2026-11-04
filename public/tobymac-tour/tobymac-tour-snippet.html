@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>TobyMac — Tour dates · paste-ready snippet for tobymac.com</title>
+  <meta name="robots" content="noindex,nofollow" />
+</head>
+<body>
+<!--
+  PASTE-READY: TobyMac — Tour dates (Boerhaus studio)
+  Paste everything between BEGIN and END into a Custom HTML block on tobymac.com/tour/
+  (replacing the Bandsintown widget inside #tour-embed-table-container).
+  - All CSS is scoped to .tmt; no globals, no jQuery.
+  - Inter is already loaded by tobymac.com; the <link> below is harmless and can be dropped there.
+  - Dates, cities, venues are fetched live from rest.bandsintown.com (artist TobyMac / id 817, app_id js_www).
+  - Edit TMT_RULES in the script to add or rename tour blocks.
+-->
+<!-- ===== BEGIN TOBYMAC TOUR WIDGET ===== -->
+<!-- TobyMac — Tour dates (Boerhaus studio prototype)
+     Live Bandsintown only (artist id 817, public app_id js_www). No dates are hard-coded.
+     Styled to sit natively on tobymac.com: Inter (Google Fonts, same family/weights the site loads),
+     black / white / cream #F7F6F1 / coral #FC5E4E / charcoal #1A1A1A taken from tobymac.com.
+     Tour blocks come from TMT_RULES below (match on event title or description). -->
+<!-- version: tobymac-tour-2026-11-04a -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
+<style>
+  .tmt {
+    --tmt-ink: #000000;
+    --tmt-paper: #ffffff;
+    --tmt-cream: #f7f6f1;
+    --tmt-coral: #fc5e4e;
+    --tmt-charcoal: #1a1a1a;
+    --tmt-radius: 10px;
+    font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--tmt-ink);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 0 48px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .tmt *, .tmt *::before, .tmt *::after { box-sizing: border-box; }
+  /* Host-proofing: tobymac.com sets p, h1–h3 { color:#000 } and a reset; re-inherit inside the widget */
+  .tmt :is(p, h2, h3, span, a, button) { color: inherit; }
+  .tmt a { text-decoration: none; }
+  .tmt :is(p, h2, h3) { margin: 0; padding: 0; }
+
+  /* Section header — same as tobymac.com "TOUR DATES" h2.section-header */
+  .tmt__title {
+    font-size: 24px; font-weight: 700; letter-spacing: 1.6px; line-height: 36px;
+    text-transform: uppercase; text-align: center; margin: 0 0 28px;
+  }
+
+  /* Stat boxes */
+  .tmt__stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 0 0 32px; }
+  .tmt__stat {
+    display: block; background: var(--tmt-paper);
+    border: 3px solid var(--tmt-ink); border-radius: var(--tmt-radius);
+    padding: 18px 20px 16px; min-width: 0;
+  }
+  a.tmt__stat:hover { background: var(--tmt-cream); }
+  .tmt__stat-label {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; margin: 0 0 10px;
+  }
+  .tmt__stat-label img { width: 16px; height: 16px; display: block; }
+  .tmt__stat-value { display: block; font-size: 40px; font-weight: 900; line-height: 1; letter-spacing: -0.02em; }
+  .tmt__stat-value--sm { font-size: 24px; line-height: 1.15; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tmt__stat-note { display: block; font-size: 12px; font-weight: 500; letter-spacing: 0.64px; text-transform: uppercase; margin: 8px 0 0; opacity: 0.7; }
+
+  /* Tour blocks — each a full themed card */
+  .tmt__blocks { display: grid; gap: 24px; }
+  .tmt__block {
+    --b-bg: var(--tmt-paper); --b-ink: var(--tmt-ink); --b-accent: var(--tmt-coral);
+    --b-line: rgba(0, 0, 0, 0.14); --b-muted: rgba(0, 0, 0, 0.62);
+    background: var(--b-bg); color: var(--b-ink);
+    border-radius: var(--tmt-radius); padding: 36px 40px 28px;
+  }
+  .tmt__block--charcoal { --b-bg: var(--tmt-charcoal); --b-ink: #ffffff; --b-accent: var(--tmt-coral); --b-line: rgba(255,255,255,0.16); --b-muted: rgba(255,255,255,0.66); }
+  .tmt__block--coral    { --b-bg: var(--tmt-coral); --b-ink: #000000; --b-accent: #ffffff; --b-line: rgba(0,0,0,0.18); --b-muted: rgba(0,0,0,0.72); }
+  .tmt__block--cream    { --b-bg: var(--tmt-cream); --b-ink: #000000; --b-accent: var(--tmt-coral); --b-line: rgba(0,0,0,0.12); --b-muted: rgba(0,0,0,0.6); }
+
+  .tmt__block-head { margin: 0 0 18px; }
+  .tmt .tmt__kicker { font-size: 12px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: var(--b-accent); margin: 0 0 8px; }
+  .tmt .tmt__block--coral .tmt__kicker { color: var(--b-ink); }
+  .tmt__name { font-size: 36px; font-weight: 900; letter-spacing: 1.44px; line-height: 1.1; text-transform: uppercase; }
+  .tmt__guests { font-size: 20px; font-weight: 500; letter-spacing: 0.4px; line-height: 1.35; margin: 8px 0 0; }
+  .tmt .tmt__range { font-size: 13px; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase; color: var(--b-muted); margin: 10px 0 0; }
+
+  /* Rows: CITY (biggest) · DATE · VENUE · TICKETS */
+  .tmt__rows { border-top: 1px solid var(--b-line); }
+  .tmt__row {
+    display: grid; grid-template-columns: minmax(0, 1.25fr) 9.5rem minmax(0, 1.25fr) auto;
+    gap: 6px 24px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--b-line);
+  }
+  .tmt__city { font-size: 24px; font-weight: 800; line-height: 1.15; letter-spacing: -0.01em; min-width: 0; }
+  .tmt__date { font-size: 15px; font-weight: 700; letter-spacing: 0.64px; text-transform: uppercase; white-space: nowrap; }
+  .tmt .tmt__dow { font-weight: 500; color: var(--b-muted); margin-right: 6px; }
+  .tmt .tmt__venue { font-size: 15px; font-weight: 400; letter-spacing: 0.64px; text-transform: uppercase; color: var(--b-muted); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tmt__btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-width: 116px; height: 40px; padding: 0 14px;
+    border: 3px solid currentColor; border-radius: var(--tmt-radius);
+    font-size: 14px; font-weight: 900; letter-spacing: 0.64px; text-transform: uppercase; white-space: nowrap;
+    transition: background-color .15s ease, color .15s ease;
+  }
+  .tmt .tmt__btn:hover { background: var(--b-ink); color: var(--b-bg); }
+  .tmt__btn--off { opacity: 0.5; pointer-events: none; }
+  .tmt__ico {
+    width: 18px; height: 18px; display: inline-block; flex: none; background-color: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg role=%22img%22 viewBox=%220 0 285.25 282.23%22 xmlns=%22http://www.w3.org/2000/svg%22%3E %3Ctitle%3ETickets%3C/title%3E %3Cpath fill=%22%23000000%22 d=%22M6.39,143.38c-1.47-2.31-1.07-5.55.74-7.39.38-.56.86-1.04,1.43-1.41L209.55,6.77c2.82-1.67,6.48-.24,7.98,1.99h0s17.74,27.9,17.74,27.9c1.47,2.31,1.07,5.55-.74,7.39-.38.56-.86,1.04-1.43,1.41-1.53.98-2.81,2.12-3.86,3.36-3.26,4.36-3.7,9.71-1.35,13.4,3.16,4.97,11.21,6.67,18.29,2.17,2.51-1.59,6.31-.65,7.98,1.99l17.74,27.9c1.47,2.31,1.07,5.55-.74,7.39-.38.56-.86,1.04-1.43,1.41l-18.55,11.8,14.31-2.27,8.08-5.14c5.36-3.41,6.94-10.92,3.46-16.41,0,0,0-.01-.01-.02l-17.74-27.9c-3.5-5.49-10.98-7.25-16.34-3.85-4.46,2.84-8.7,1.62-9.93-.31,0,0,0,0,0,0-.61-.96-.7-2.42-.25-3.92.61-2.02,2.1-3.87,4.19-5.2,5.36-3.41,6.94-10.92,3.46-16.41,0,0,0-.01-.01-.02l-17.74-27.9-.09-.13c-3.1-4.61-10.31-7.25-16.1-3.81l-.08.05L5.31,129.48c-5.36,3.41-6.94,10.92-3.46,16.41,0,0,0,.01.01.02l4.92,7.73,5.57-.88-5.96-9.38Z%22/%3E %3Cpath fill=%22%23000000%22 d=%22M258.55,96.03l-11.64-18.31c-10.58,3.97-22.92,1.11-29.17-8.71-6.24-9.82-3.55-22.13,4.53-30.03l-11.69-18.39L19.16,142.32l5.4,8.49,197.02-31.27,36.97-23.51ZM187.65,66.16c-2.74,1.83-6.44,1.09-8.27-1.65-.05-.07-.09-.14-.14-.22l-2.77-4.35c-1.81-2.75-1.04-6.45,1.71-8.25.05-.03.1-.06.15-.09,2.8-1.72,6.47-.85,8.2,1.95l2.77,4.35c1.83,2.74,1.09,6.44-1.65,8.27ZM202.47,89.57c-2.74,1.83-6.44,1.09-8.27-1.65-.05-.07-.09-.14-.14-.22l-2.77-4.35c-1.81-2.75-1.04-6.45,1.71-8.25.05-.03.1-.06.15-.09,2.8-1.72,6.47-.85,8.2,1.95l2.77,4.35c1.83,2.74,1.09,6.44-1.65,8.27ZM216.93,112.41c-2.74,1.83-6.44,1.09-8.27-1.65-.05-.07-.09-.14-.14-.22l-2.77-4.35c-1.81-2.75-1.04-6.45,1.71-8.25.05-.03.1-.06.15-.09,2.8-1.72,6.47-.85,8.2,1.95l2.77,4.35c1.83,2.74,1.09,6.44-1.65,8.27Z%22/%3E %3Cpath fill=%22%23000000%22 d=%22M285.1,230.4s0-.02,0-.02l-5.27-32.64c-1.04-6.43-7.22-11-13.49-9.99-5.22.84-8.63-1.95-9-4.21,0,0,0,0,0,0-.18-1.12.31-2.5,1.32-3.7,1.36-1.62,3.45-2.73,5.9-3.12,6.27-1.01,10.69-7.29,9.66-13.71,0,0,0-.02,0-.02l-5.27-32.64-.03-.15c-1.03-5.46-6.61-10.73-13.28-9.86h-.09s-3.04.5-3.04.5l-14.39,2.32-.73.12-29.04,4.69-179.83,29.05-8.19,1.32c-.99.16-1.93.46-2.81.87-.27.12-.53.25-.79.4-1.55.86-2.88,2.06-3.91,3.5-1.79,2.51-2.67,5.71-2.15,8.95,0,0,0,.02,0,.02l16.16,100.02c1.04,6.43,7.22,11,13.49,9.99l235.15-37.98c6.27-1.01,10.68-7.29,9.66-13.71ZM275.52,237.83c-.34.14-.69.24-1.05.3l-235.14,37.98c-2.93.47-6.05-1.9-6.55-4.98l-16.16-100.02c-.1-.65-.08-1.29.04-1.93.31-1.7,1.34-3.25,2.74-4.14.18-.12.38-.2.57-.29.27-.13.55-.23.84-.31.15-.04.3-.1.45-.12l10.76-1.74,163.37-26.39,29.04-4.69.73-.12,14.39-2.32,16.84-2.72c3.25-.42,6.05,2.34,6.55,4.98h0s5.27,32.64,5.27,32.64c.44,2.7-1.21,5.52-3.6,6.49-.57.36-1.2.62-1.87.73-1.79.29-3.42.84-4.87,1.56-4.72,2.71-7.23,7.46-6.54,11.77.94,5.82,7.66,10.55,15.94,9.22,2.93-.47,6.05,1.9,6.55,4.98l5.27,32.64c.44,2.7-1.21,5.52-3.6,6.49Z%22/%3E %3Cpath fill=%22%23000000%22 d=%22M262.69,206.27c-11.29-.54-21.49-8.04-23.35-19.53-1.86-11.49,5.48-21.73,16.03-25.8l-3.47-21.51-38.41,6.2-14.39,2.32-.73.12-29.04,4.69-130.15,21.02-11.22,1.81v.06s.36,2.2.36,2.2l2.09,12.93,11.8,73.08,223.95-36.17-3.46-21.42ZM205.89,167.44c-.02-.08-.03-.17-.04-.25l-.82-5.09c-.57-3.24,1.59-6.33,4.84-6.9.06-.01.11-.02.17-.03,3.26-.48,6.28,1.78,6.76,5.03l.82,5.09c.59,3.24-1.55,6.34-4.79,6.94-3.24.59-6.34-1.55-6.94-4.79ZM210.25,194.81c-.02-.08-.03-.17-.04-.25l-.82-5.09c-.57-3.24,1.59-6.33,4.84-6.9.06-.01.11-.02.17-.03,3.26-.48,6.28,1.78,6.76,5.03l.82,5.09c.59,3.24-1.55,6.34-4.79,6.94-3.24.59-6.34-1.55-6.94-4.79ZM221.45,226.29c-3.24.59-6.34-1.55-6.94-4.79-.02-.08-.03-.17-.04-.25l-.82-5.09c-.57-3.24,1.59-6.33,4.84-6.9.06-.01.11-.02.17-.03,3.26-.48,6.28,1.78,6.76,5.03l.82,5.09c.59,3.24-1.55,6.34-4.79,6.94Z%22/%3E %3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg role=%22img%22 viewBox=%220 0 285.25 282.23%22 xmlns=%22http://www.w3.org/2000/svg%22%3E %3Ctitle%3ETickets%3C/title%3E %3Cpath fill=%22%23000000%22 d=%22M6.39,143.38c-1.47-2.31-1.07-5.55.74-7.39.38-.56.86-1.04,1.43-1.41L209.55,6.77c2.82-1.67,6.48-.24,7.98,1.99h0s17.74,27.9,17.74,27.9c1.47,2.31,1.07,5.55-.74,7.39-.38.56-.86,1.04-1.43,1.41-1.53.98-2.81,2.12-3.86,3.36-3.26,4.36-3.7,9.71-1.35,13.4,3.16,4.97,11.21,6.67,18.29,2.17,2.51-1.59,6.31-.65,7.98,1.99l17.74,27.9c1.47,2.31,1.07,5.55-.74,7.39-.38.56-.86,1.04-1.43,1.41l-18.55,11.8,14.31-2.27,8.08-5.14c5.36-3.41,6.94-10.92,3.46-16.41,0,0,0-.01-.01-.02l-17.74-27.9c-3.5-5.49-10.98-7.25-16.34-3.85-4.46,2.84-8.7,1.62-9.93-.31,0,0,0,0,0,0-.61-.96-.7-2.42-.25-3.92.61-2.02,2.1-3.87,4.19-5.2,5.36-3.41,6.94-10.92,3.46-16.41,0,0,0-.01-.01-.02l-17.74-27.9-.09-.13c-3.1-4.61-10.31-7.25-16.1-3.81l-.08.05L5.31,129.48c-5.36,3.41-6.94,10.92-3.46,16.41,0,0,0,.01.01.02l4.92,7.73,5.57-.88-5.96-9.38Z%22/%3E %3Cpath fill=%22%23000000%22 d=%22M258.55,96.03l-11.64-18.31c-10.58,3.97-22.92,1.11-29.17-8.71-6.24-9.82-3.55-22.13,4.53-30.03l-11.69-18.39L19.16,142.32l5.4,8.49,197.02-31.27,36.97-23.51ZM187.65,66.16c-2.74,1.83-6.44,1.09-8.27-1.65-.05-.07-.09-.14-.14-.22l-2.77-4.35c-1.81-2.75-1.04-6.45,1.71-8.25.05-.03.1-.06.15-.09,2.8-1.72,6.47-.85,8.2,1.95l2.77,4.35c1.83,2.74,1.09,6.44-1.65,8.27ZM202.47,89.57c-2.74,1.83-6.44,1.09-8.27-1.65-.05-.07-.09-.14-.14-.22l-2.77-4.35c-1.81-2.75-1.04-6.45,1.71-8.25.05-.03.1-.06.15-.09,2.8-1.72,6.47-.85,8.2,1.95l2.77,4.35c1.83,2.74,1.09,6.44-1.65,8.27ZM216.93,112.41c-2.74,1.83-6.44,1.09-8.27-1.65-.05-.07-.09-.14-.14-.22l-2.77-4.35c-1.81-2.75-1.04-6.45,1.71-8.25.05-.03.1-.06.15-.09,2.8-1.72,6.47-.85,8.2,1.95l2.77,4.35c1.83,2.74,1.09,6.44-1.65,8.27Z%22/%3E %3Cpath fill=%22%23000000%22 d=%22M285.1,230.4s0-.02,0-.02l-5.27-32.64c-1.04-6.43-7.22-11-13.49-9.99-5.22.84-8.63-1.95-9-4.21,0,0,0,0,0,0-.18-1.12.31-2.5,1.32-3.7,1.36-1.62,3.45-2.73,5.9-3.12,6.27-1.01,10.69-7.29,9.66-13.71,0,0,0-.02,0-.02l-5.27-32.64-.03-.15c-1.03-5.46-6.61-10.73-13.28-9.86h-.09s-3.04.5-3.04.5l-14.39,2.32-.73.12-29.04,4.69-179.83,29.05-8.19,1.32c-.99.16-1.93.46-2.81.87-.27.12-.53.25-.79.4-1.55.86-2.88,2.06-3.91,3.5-1.79,2.51-2.67,5.71-2.15,8.95,0,0,0,.02,0,.02l16.16,100.02c1.04,6.43,7.22,11,13.49,9.99l235.15-37.98c6.27-1.01,10.68-7.29,9.66-13.71ZM275.52,237.83c-.34.14-.69.24-1.05.3l-235.14,37.98c-2.93.47-6.05-1.9-6.55-4.98l-16.16-100.02c-.1-.65-.08-1.29.04-1.93.31-1.7,1.34-3.25,2.74-4.14.18-.12.38-.2.57-.29.27-.13.55-.23.84-.31.15-.04.3-.1.45-.12l10.76-1.74,163.37-26.39,29.04-4.69.73-.12,14.39-2.32,16.84-2.72c3.25-.42,6.05,2.34,6.55,4.98h0s5.27,32.64,5.27,32.64c.44,2.7-1.21,5.52-3.6,6.49-.57.36-1.2.62-1.87.73-1.79.29-3.42.84-4.87,1.56-4.72,2.71-7.23,7.46-6.54,11.77.94,5.82,7.66,10.55,15.94,9.22,2.93-.47,6.05,1.9,6.55,4.98l5.27,32.64c.44,2.7-1.21,5.52-3.6,6.49Z%22/%3E %3Cpath fill=%22%23000000%22 d=%22M262.69,206.27c-11.29-.54-21.49-8.04-23.35-19.53-1.86-11.49,5.48-21.73,16.03-25.8l-3.47-21.51-38.41,6.2-14.39,2.32-.73.12-29.04,4.69-130.15,21.02-11.22,1.81v.06s.36,2.2.36,2.2l2.09,12.93,11.8,73.08,223.95-36.17-3.46-21.42ZM205.89,167.44c-.02-.08-.03-.17-.04-.25l-.82-5.09c-.57-3.24,1.59-6.33,4.84-6.9.06-.01.11-.02.17-.03,3.26-.48,6.28,1.78,6.76,5.03l.82,5.09c.59,3.24-1.55,6.34-4.79,6.94-3.24.59-6.34-1.55-6.94-4.79ZM210.25,194.81c-.02-.08-.03-.17-.04-.25l-.82-5.09c-.57-3.24,1.59-6.33,4.84-6.9.06-.01.11-.02.17-.03,3.26-.48,6.28,1.78,6.76,5.03l.82,5.09c.59,3.24-1.55,6.34-4.79,6.94-3.24.59-6.34-1.55-6.94-4.79ZM221.45,226.29c-3.24.59-6.34-1.55-6.94-4.79-.02-.08-.03-.17-.04-.25l-.82-5.09c-.57-3.24,1.59-6.33,4.84-6.9.06-.01.11-.02.17-.03,3.26-.48,6.28,1.78,6.76,5.03l.82,5.09c.59,3.24-1.55,6.34-4.79,6.94Z%22/%3E %3C/svg%3E") center / contain no-repeat;
+  }
+
+  .tmt__more {
+    display: block; width: 100%; margin: 20px 0 0; padding: 14px 0;
+    background: none; border: 3px solid currentColor; border-radius: var(--tmt-radius);
+    color: inherit; font: inherit; font-size: 14px; font-weight: 900; letter-spacing: 1.2px; text-transform: uppercase; cursor: pointer;
+  }
+  .tmt .tmt__more:hover { background: var(--b-ink); color: var(--b-bg); }
+  .tmt__status { font-size: 14px; padding: 16px 0; text-align: center; }
+  .tmt .tmt__status--err { color: #b3261e; }
+  .tmt__source { font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; text-align: center; opacity: 0.55; margin: 20px 0 0; }
+
+  @media (max-width: 900px) {
+    .tmt__stats { grid-template-columns: 1fr 1fr; }
+    .tmt__stat--next { grid-column: 1 / -1; }
+    .tmt__row { grid-template-columns: minmax(0, 1fr) 8.5rem minmax(0, 1fr) auto; gap: 6px 16px; }
+    .tmt__city { font-size: 20px; }
+  }
+  /* Mobile: stacked CITY → DATE → VENUE, ticket icon button on the right */
+  @media (max-width: 600px) {
+    .tmt__title { margin-bottom: 18px; }
+    .tmt__stats { gap: 10px; margin-bottom: 20px; }
+    .tmt__stat { padding: 14px 14px 12px; }
+    .tmt__stat-value { font-size: 30px; }
+    .tmt__stat-value--sm { font-size: 20px; }
+    .tmt__blocks { gap: 16px; }
+    .tmt__block { padding: 24px 18px 18px; border-radius: 8px; }
+    .tmt__name { font-size: 26px; letter-spacing: 1px; }
+    .tmt__guests { font-size: 16px; }
+    .tmt .tmt__range { font-size: 12px; }
+    .tmt__row {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas: "city btn" "date btn" "venue btn";
+      gap: 3px 14px; padding: 14px 0;
+    }
+    .tmt__city { grid-area: city; font-size: 21px; }
+    .tmt__date { grid-area: date; font-size: 13px; }
+    .tmt .tmt__venue { grid-area: venue; font-size: 12px; white-space: normal; }
+    .tmt__btn { grid-area: btn; min-width: 0; width: 48px; height: 48px; padding: 0; }
+    .tmt__btn-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .tmt__ico { width: 22px; height: 22px; }
+  }
+</style>
+
+<div class="tmt" data-artist="TobyMac" data-app-id="js_www" data-bit-url="https://www.bandsintown.com/a/817-tobymac">
+  <h2 class="tmt__title">Tour Dates</h2>
+  <div class="tmt__stats">
+    <a class="tmt__stat" href="https://www.bandsintown.com/a/817-tobymac" target="_blank" rel="noopener">
+      <span class="tmt__stat-label"><img src="https://icons.boerhaus.com/bandsintown.svg" alt="" width="16" height="16" />Bandsintown followers</span>
+      <span class="tmt__stat-value" data-tmt="followers">—</span>
+      <span class="tmt__stat-note">Track TobyMac</span>
+    </a>
+    <div class="tmt__stat">
+      <span class="tmt__stat-label"><span class="tmt__ico" aria-hidden="true"></span>Concerts on sale</span>
+      <span class="tmt__stat-value" data-tmt="count">—</span>
+      <span class="tmt__stat-note" data-tmt="tours">&nbsp;</span>
+    </div>
+    <div class="tmt__stat tmt__stat--next">
+      <span class="tmt__stat-label">Next show</span>
+      <span class="tmt__stat-value tmt__stat-value--sm" data-tmt="next-city">—</span>
+      <span class="tmt__stat-note" data-tmt="next-date">&nbsp;</span>
+    </div>
+  </div>
+  <div class="tmt__blocks" data-tmt="list" aria-live="polite">
+    <p class="tmt__status">Loading dates…</p>
+  </div>
+  <p class="tmt__source">Dates live from Bandsintown</p>
+</div>
+
+<script>
+(function () {
+  /* ── Tour rules: first match wins. Matched against event title, then description (case-insensitive).
+       label: block header ("{year}" = year of the block's first date)
+       guests: subhead shown once in the header, never per event
+       theme: charcoal | coral | cream | plain
+       limit: rows shown before "See all N dates" (null = show all)
+       NOTE: Bandsintown titles the spring run "Hit's Deep 2027" (stray apostrophe). We match both
+       spellings and display the corrected label "Hits Deep {year}" from this config. ── */
+  var TMT_RULES = [
+    { id: "fall",     match: { description: /three names\.?\s*one tour|chris\s+tomlin.*third\s+day/i },
+      kicker: "Three names. One tour.", label: "Fall Tour {year}", guests: "with Chris Tomlin & Third Day",
+      theme: "charcoal", limit: null },
+    { id: "hitsdeep", match: { title: /hit'?s\s*deep/i, description: /hits\s*deep\s*tour/i },
+      kicker: "TobyMac’s", label: "Hits Deep {year}", guests: "with Jeremy Camp, Seph Schlueter & Katy Nichole",
+      theme: "coral", limit: 8 }
+  ];
+  var TMT_FALLBACK = { id: "more", kicker: "", label: "More dates", guests: "", theme: "cream", limit: 8 };
+
+  /* Venue-name overrides by Bandsintown event id (reused from the True Artist TobyMac block).
+     Needed because BIT stores the venue name as "Hit's Deep 2027" on the spring run. */
+  var TMT_VENUES = {"108836301":"Crown Complex","108836308":"Rupp Arena","108836321":"Von Braun Center","108836309":"Cajundome & Convention Center","108836313":"Benchmark International Arena","108836294":"Amerant Bank Arena","108836300":"Kia Center","108836297":"Hertz Arena","108836303":"Pensacola Bay Center","108836305":"Smart Financial Centre at Sugar Land","108836314":"Texas Trust CU Theatre","108836304":"Nationwide Arena","108836319":"EagleBank Arena","108836293":"EagleBank Arena","108836302":"Chartway Arena at the Ted Constant Convocation Center","108836298":"VyStar Veterans Memorial Arena","108836306":"Bridgestone Arena","108836316":"Gas South Convention Center","108836295":"Thompson-Boling Arena","108836322":"Huntington Center","108836310":"Fishers Event Center","108836299":"Show Me Center","108836317":"Van Andel Arena","108836318":"Moody Center","108836296":"Freeman Coliseum","108836320":"United Supermarkets Arena","108836312":"Denny Sanford PREMIER Center","108836311":"Fargodome","108836307":"BMO Center","108836323":"Chaifetz Arena","108836315":"BOK Center","108368752":"GIANT Center","108368753":"KeyBank Center","108368754":"First Horizon Coliseum","108368755":"Casey's Center","108368756":"Ford Center","108368757":"CFG Bank Arena","108368758":"Pinnacle Bank Arena","108368759":"Wolstein Center","108368760":"Mizzou Arena","108368761":"Cross Insurance Arena","108368762":"Peoria Civic Center","108368763":"Simmons Bank Arena"};
+
+  var scripts = document.getElementsByTagName("script");
+  var me = document.currentScript || scripts[scripts.length - 1];
+  var root = me && me.previousElementSibling;
+  if (!root || !root.classList || !root.classList.contains("tmt")) root = document.querySelector(".tmt");
+  if (!root) return;
+
+  var artist = root.getAttribute("data-artist") || "TobyMac";
+  var appId = root.getAttribute("data-app-id") || "js_www";
+  var listEl = root.querySelector('[data-tmt="list"]');
+  var MONTHS = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+  var DOW = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+  var expanded = {};
+
+  function $(k) { return root.querySelector('[data-tmt="' + k + '"]'); }
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function parts(iso) { var m = String(iso || "").match(/(\d{4})-(\d{2})-(\d{2})/); return m ? { y: +m[1], m: +m[2], d: +m[3] } : null; }
+  function md(p) { return p ? MONTHS[p.m - 1] + " " + p.d : ""; }
+  function dow(p) { return p ? DOW[new Date(Date.UTC(p.y, p.m - 1, p.d)).getUTCDay()] : ""; }
+  function fmtCount(n) { n = Number(n) || 0; if (n >= 1e6) return (Math.round(n / 1e5) / 10).toFixed(1).replace(/\.0$/, "") + "M"; if (n >= 1e3) return Math.round(n / 1e3) + "K"; return String(n); }
+  function city(v) { v = v || {}; if (v.city && v.region) return v.city + ", " + v.region; if (v.city && v.country) return v.city + ", " + v.country; return v.location || v.city || ""; }
+
+  function venueName(ev) {
+    var id = String(ev.id || "");
+    if (TMT_VENUES[id]) return TMT_VENUES[id];
+    var n = String((ev.venue && ev.venue.name) || "").trim();
+    var t = String(ev.title || "").trim();
+    if (!n || (t && n.toLowerCase() === t.toLowerCase()) || /hit'?s?\s*deep|\btour\b/i.test(n)) return "";
+    return n;
+  }
+  function ticket(ev) {
+    var o = ev.offers || [], i;
+    for (i = 0; i < o.length; i++) if (o[i].type === "Tickets" && o[i].url) return { url: o[i].url, status: o[i].status };
+    for (i = 0; i < o.length; i++) if (o[i].url) return { url: o[i].url, status: o[i].status };
+    return { url: ev.url || "", status: "" };
+  }
+  function ruleFor(ev) {
+    var t = String(ev.title || ""), d = String(ev.description || "");
+    for (var i = 0; i < TMT_RULES.length; i++) {
+      var m = TMT_RULES[i].match;
+      if ((m.title && t && m.title.test(t)) || (m.description && d && m.description.test(d))) return TMT_RULES[i];
+    }
+    return TMT_FALLBACK;
+  }
+  function group(events) {
+    var map = {}, out = [];
+    events.forEach(function (ev) {
+      var r = ruleFor(ev);
+      if (!map[r.id]) { map[r.id] = { rule: r, events: [] }; out.push(map[r.id]); }
+      map[r.id].events.push(ev);
+    });
+    out.forEach(function (g) { g.events.sort(function (a, b) { return String(a.datetime).localeCompare(String(b.datetime)); }); });
+    out.sort(function (a, b) { return String(a.events[0].datetime).localeCompare(String(b.events[0].datetime)); });
+    return out;
+  }
+  function fill(s, g) { var p = parts(g.events[0].datetime); return String(s || "").replace("{year}", p ? p.y : ""); }
+
+  function rowHtml(ev) {
+    var p = parts(ev.datetime || ev.starts_at), v = venueName(ev), tk = ticket(ev);
+    var sold = /sold/i.test(tk.status || "");
+    var label = sold ? "Sold out" : "Tickets";
+    var btn = tk.url
+      ? '<a class="tmt__btn' + (sold ? " tmt__btn--off" : "") + '" href="' + esc(tk.url) + '" target="_blank" rel="noopener" aria-label="' + label + " — " + esc(city(ev.venue)) + " " + md(p) + '"><span class="tmt__ico" aria-hidden="true"></span><span class="tmt__btn-label">' + label + "</span></a>"
+      : "<span></span>";
+    return '<div class="tmt__row">' +
+      '<p class="tmt__city">' + esc(city(ev.venue)) + "</p>" +
+      '<p class="tmt__date"><span class="tmt__dow">' + dow(p) + "</span>" + md(p) + "</p>" +
+      '<p class="tmt__venue">' + esc(v || "—") + "</p>" + btn + "</div>";
+  }
+
+  function render(events) {
+    var groups = group(events);
+    listEl.innerHTML = "";
+    if (!events.length) { listEl.innerHTML = '<p class="tmt__status">No upcoming dates right now — check back soon.</p>'; return; }
+    groups.forEach(function (g) {
+      var r = g.rule, n = g.events.length;
+      var first = parts(g.events[0].datetime), last = parts(g.events[n - 1].datetime);
+      var range = md(first) + (n > 1 && md(last) !== md(first) ? " – " + md(last) : "") + " · " + n + (n === 1 ? " date" : " dates");
+      var limit = r.limit && !expanded[r.id] ? r.limit : n;
+      var sec = document.createElement("section");
+      sec.className = "tmt__block tmt__block--" + (r.theme || "plain");
+      sec.setAttribute("data-tour", r.id);
+      sec.innerHTML =
+        '<header class="tmt__block-head">' +
+          (r.kicker ? '<p class="tmt__kicker">' + esc(fill(r.kicker, g)) + "</p>" : "") +
+          '<h3 class="tmt__name">' + esc(fill(r.label, g)) + "</h3>" +
+          (r.guests ? '<p class="tmt__guests">' + esc(r.guests) + "</p>" : "") +
+          '<p class="tmt__range">' + range + "</p>" +
+        "</header>" +
+        '<div class="tmt__rows">' + g.events.slice(0, limit).map(rowHtml).join("") + "</div>";
+      if (r.limit && n > r.limit) {
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "tmt__more";
+        b.setAttribute("aria-expanded", expanded[r.id] ? "true" : "false");
+        b.textContent = expanded[r.id] ? "Show fewer dates" : "See all " + n + " dates";
+        b.addEventListener("click", function () { expanded[r.id] = !expanded[r.id]; render(events); if (!expanded[r.id]) sec.scrollIntoView({ block: "start" }); });
+        sec.appendChild(b);
+      }
+      listEl.appendChild(sec);
+    });
+    $("count").textContent = String(events.length);
+    $("tours").textContent = groups.length + (groups.length === 1 ? " tour block" : " tour blocks");
+    var p0 = parts(events[0].datetime);
+    $("next-city").textContent = city(events[0].venue);
+    $("next-date").textContent = dow(p0) + " " + md(p0) + (venueName(events[0]) ? " · " + venueName(events[0]) : "");
+  }
+
+  var base = "https://rest.bandsintown.com/artists/" + encodeURIComponent(artist), q = "?app_id=" + encodeURIComponent(appId);
+  fetch(base + q).then(function (r) { return r.ok ? r.json() : null; }).then(function (a) {
+    if (a && a.tracker_count != null) $("followers").textContent = fmtCount(a.tracker_count);
+  }).catch(function () {});
+  fetch(base + "/events" + q).then(function (r) { if (!r.ok) throw new Error("events " + r.status); return r.json(); })
+    .then(function (ev) { ev = Array.isArray(ev) ? ev.slice() : []; ev.sort(function (a, b) { return String(a.datetime).localeCompare(String(b.datetime)); }); render(ev); })
+    .catch(function (e) { listEl.innerHTML = '<p class="tmt__status tmt__status--err">Couldn’t load tour dates. Try again in a moment.</p>'; if (window.console) console.warn("tmt", e); });
+})();
+</script>
+
+<!-- ===== END TOBYMAC TOUR WIDGET ===== -->
+</body>
+</html>
